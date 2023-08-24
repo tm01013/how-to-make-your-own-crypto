@@ -1,0 +1,14 @@
+{
+
+    "name": "Piros pont",
+    "symbol": "PP",
+    "uri": "https://raw.githubusercontent.com/tm01013/token-metadata/main/token_metedata_github.json", // <= a másik json RAW linkje, ehez hasonló a jó (github-on sima katt rá => Raw => annak a linkje)
+    "seller_fee_basis_points": 100,
+    "creators": [
+        {
+            "address": "7ztU9iXBwNLBswajozYtKBXqTTTsdxwfaCEa17xPiVaY", // <= Az II/1 lépésben létrehozott fiók címe
+            "verified": false,
+            "share": 100
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    /*
+        !!Ezt tölsd fel a GitHub ra!!
+        I. Regisztrálj a GitHub-ra (ingyenes)
+        II. A "Dashbord"-on(regisztrálás és bejelentkezés után ide kerülsz) hozz létre egy NYILVÁNOS repo-t
+        III. Itt kattints a fájl feltöltése kis linkre a kék mezőben (lehet hogy nem a kék mezőben lesz)
+        IV. Tölsd fel az ikont és ezt a kódot (a megjegyzéseket kitörölheted //... / *...* /)
+
+        RAW => nem github aldalt nyit meg hanem a simán a képet / kódot
+    */
+    "name": "Piros pont", // <= Token neve
+    "symbol": "PP", // <= Token jele
+    "description": "Legpirosabb piros pont :)", // <= leírás
+    "image": "https://raw.githubusercontent.com/tm01013/token-image/main/token-image.png", //RAW link a token ikonjához, ehez hasonló a jó (github-on jobb klikk kép megnyitása új oldalon => annak a címe)
+    "attributes": [],
+    "properties": {
+        "files": [
+            {
+                "uri": "https://raw.githubusercontent.com/tm01013/token-image/main/token-image.png", //ugyanaz a link mint feljebb
+                "type": "image/png" //kép formátuma png javasolt
+            }
+        ]
+    }
+}
