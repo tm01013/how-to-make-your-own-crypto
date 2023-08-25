@@ -12,16 +12,16 @@ Cryptovaluta létrehozásához a követketőkre lesz szügséged:
  
  **Mac (Terminal), Linux (Terminal), Google Cloud console:**
  ```
-    sh -c "$(curl -sSfL https://release.solana.com/v1.16.9/install)”
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-    cargo install spl-token-cli
+sh -c "$(curl -sSfL https://release.solana.com/v1.16.9/install)”
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+cargo install spl-token-cli
 ```	
 **Windows (cmd):**
 ```
-    cmd /c "curl https://release.solana.com/v1.16.9/solana-install-init-x86_64-pc-windows-msvc.exe --output C:\solana-install-tmp\solana-install-init.exe --create-dirs"    
-    C:\solana-install-tmp\solana-install-init.exe v1.16.9
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-    cargo install spl-token-cli
+cmd /c "curl https://release.solana.com/v1.16.9/solana-install-init-x86_64-pc-windows-msvc.exe --output C:\solana-install-tmp\solana-install-init.exe --create-dirs"    
+C:\solana-install-tmp\solana-install-init.exe v1.16.9
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+cargo install spl-token-cli
 ```
 
 ## II. Token létrehozása
@@ -31,7 +31,7 @@ Cryptovaluta létrehozásához a követketőkre lesz szügséged:
  	solana-keygen new
 	```	
 2. Solana konfiguráció ellenőrzése
-   	```
+  ```
 	solana config get
 	```
 	A WebSocket sorban ha nem  api.devnet.solana.com -ot látsz akkor nem vagy a teszthálózaton akkor a token létrehozásáért fizetned kell (+ a tranzakciókért), *a teszthálózaton semminek sincs valódi pénzbeli értéke.*
