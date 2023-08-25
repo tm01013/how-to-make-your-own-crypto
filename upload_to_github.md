@@ -8,4 +8,17 @@
 6. A kék mezőben kattints az "*upload an existing file*" gombra
 7. Tölsd fel a token ikonját és a *token_metadata_github.json* fájlodat (amiben már előre elvégezted a módosításokat)
 8. Kattints a "*Commit changes*" gombra alul
-9. 
+
+## Mielőtt visszatérnél a fő leírához még meg kell szerezned a szükséges RAW linkeket
+1. Kattints a token ikanjának fájljára(token_image.png)
+2. Jobb klikk a képre => "*Kép megnyitása új lapon*"
+3. Másold ki a lap linkjét (utánna becsukhatod a lapot)
+   
+### Egy kis Link beillesztés :)
+
+4. Kattints a *token_metadata_github.json* fájlra, majd a *ceruza ikonra a jobb oldalon*
+5. A json fájlban a megfelelő hehyre illeszd be az ikon linkjét, majd kattints a *Commit changes* gombra
+6. Majd a *RAW* gombra kattintva szerezd meg a linket ugyanúgy mint az ikonnál tetted
+7. Ezután nyisd meg a token_metadata.json-t (a gépeden) és a megfelelő helyre illeszd be a linket
+
+### [Most már viszzatérhetsz a fő leíráshoz :)](/README.md)
