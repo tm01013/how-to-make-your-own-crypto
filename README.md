@@ -8,7 +8,7 @@ Cryptovaluta létrehozásához a követketőkre lesz szügséged:
   
 Az alább bemutatott módszer Mac, Linux és Google cloud rendszereken lett tesztelve.
 
- # I. Eszközök telepítése
+ ## I. Eszközök telepítése
  
  Mac (Terminal), Linux (Terminal), Google Cloud console:
  
@@ -24,7 +24,7 @@ Windows (cmd):
     cargo install spl-token-cli
 
 
-# II. Token létrehozása
+## II. Token létrehozása
 
 1. Új solana fiók létrehozása(Írd fel a kimenetet!)
 
@@ -66,7 +66,7 @@ Windows (cmd):
     
 		spl-token authorize <token> mint --disable
 
-# IV. Metadata hozzáadása a tokenhez
+## IV. Metadata hozzáadása a tokenhez
 Metadata nélkül a token mindenhol “Unknown Token” néven fog megjelenni + ikon és szimbólum (pl:BTC) nélkül.
 
 1. Metaboss telepítése
@@ -74,15 +74,14 @@ Metadata nélkül a token mindenhol “Unknown Token” néven fog megjelenni + 
 		bash <(curl -sSf https://raw.githubusercontent.com/samuelvanderwaal/metaboss/main/scripts/install.sh)
 
 2. Hozz létre két .json fájlt a mellékelt minták alapján, plusz egy ikont (png javasolt)
-3. Tölsd fel a token_metadata_github.json-t és a token ikonját a GitHub-ra (részletek a token_metadata_github.json fájlban)
-4. Szerezd meg a token_metadata_github.json és a token ikonjának RAW linkjét (részletek a token_metadata_github.json fájlban + képernyőképek upload_to_github_screenshots.pdf-ben)
+3. [Kövesd ezeket az utasításokat](/upload_to_github.md)
 5. Metadata hozzáadása a tokenhez
    
 		metaboss create metadata -a <token> -m <token_metadata.json fájl (nem a github-os)>
   
-6. A tokened ELKÉSZÜLT :)
+6. A tokened ***ELKÉSZÜLT*** :)
 
-# V. Token használata
+## V. Token használata
 
 1. Hozz létre egy Solana tárolására alkalmas pénztárcát, például a Phantom(Android, IOS, Bővítmény Chrome-hoz) appban.
 2. Ha teszthálózaton hoztál létre tokent akkor a pénztárca appban a hálózatot át kell állítanod "Mainnet"-ről "Devnet"-re
