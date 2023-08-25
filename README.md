@@ -31,6 +31,7 @@ cargo install spl-token-cli
 	```
     solana-keygen new
   ```
+
 2. Solana konfiguráció ellenőrzése
   ```
     	solana config get
@@ -38,20 +39,19 @@ cargo install spl-token-cli
 
 	A WebSocket sorban ha nem  api.devnet.solana.com -ot látsz akkor nem vagy a teszthálózaton akkor a token létrehozásáért fizetned kell (+ a tranzakciókért), *a teszthálózaton semminek sincs valódi pénzbeli értéke.*
 
-
 3. Ha ingyenesen szeretnél tokent létrehozni ezzel "léphetsz" be a teszthálózatba.
  	```  
-	solana config set --url https://api.devnet.solana.com
+  	solana config set --url https://api.devnet.solana.com
 	```
 4. Solana-t kell juttatnod a számládra, ezzel a parancsal 4 teszt SOL-t "hívsz le".
 	```   
-	solana airdrop 4
+  	solana airdrop 4
 	```
    > 	Ha nem a tszthálózaton vagy akkor a saját számládról kell 0,5 SOL-t utalnod ide.
 
 6. Token létrehozása (írd fel a token "címét"!)
  	```  
-	spl-token create-token
+    spl-token create-token
 	```
 7. Fiók létrehozása a tokenünk számára (e nélkül nem tudnánk használni)
 	```  
