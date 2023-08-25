@@ -28,12 +28,13 @@ cargo install spl-token-cli
 
 1. Új solana fiók létrehozása(Írd fel a kimenetet!)
 	```
- 	solana-keygen new
-	```	
-2. Solana konfiguráció ellenőrzése
+  solana-keygen new
   ```
-	solana config get
-	```
+2. Solana konfiguráció ellenőrzése
+    ```
+  	solana config get
+  	```
+
 	A WebSocket sorban ha nem  api.devnet.solana.com -ot látsz akkor nem vagy a teszthálózaton akkor a token létrehozásáért fizetned kell (+ a tranzakciókért), *a teszthálózaton semminek sincs valódi pénzbeli értéke.*
 
 
