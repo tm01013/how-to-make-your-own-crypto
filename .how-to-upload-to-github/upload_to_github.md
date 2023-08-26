@@ -1,5 +1,5 @@
 # Ez a szakasz bemutatja hogyan töltheted fel a szügséges fájlokat a GitHub-ra
-> Képernyőképekért kattints [ide](/upload_to_github.pdf)
+> Képernyőképekért kattints [ide](./upload_to_github.pdf)
 
 1. [Regisztrálj a GitHub-ra](https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home) ha még nem tetted meg
 2. Ez utána a "Dashbord"-on kattints a zöld "*New*" gombra (bal vagy jobb oldalon)
