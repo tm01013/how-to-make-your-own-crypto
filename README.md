@@ -117,7 +117,7 @@ Metadata nélkül a token mindenhol “*Unknown Token*” néven fog megjelenni 
 	bash <(curl -sSf https://raw.githubusercontent.com/samuelvanderwaal/metaboss/main/scripts/install.sh)
 	```
 2. Hozz létre két .json fájlt a mellékelt minták alapján, plusz egy ikont (png javasolt)
-3. [Kövesd ezeket az utasításokat](/upload_to_github.md)
+3. [Kövesd ezeket az utasításokat](/.how-to-upload-to-github/upload_to_github.md)
 5. Metadata hozzáadása a tokenhez
 	```bash   
 	metaboss create metadata -a <token> -m <token_metadata.json fájl (nem a github-os)>
