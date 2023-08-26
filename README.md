@@ -1,7 +1,7 @@
 # Hogyan készítsd el a saját cryptovalutádat ingyen?
 
 Cryptovaluta létrehozásához a követketőkre lesz szügséged:
-- Akármilyen számitógépre, akár tableten is meg tudod csináln
+- Akármilyen számitógépre, akár tableten is meg tudod csinálni
 - Egy ingyenes GitHub fiókra
 - Alapvető készségekre a Terminál(vagy cmd) használatához
 - Alapvető ismerettségre json kód írásához
