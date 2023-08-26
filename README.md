@@ -43,13 +43,22 @@ cargo install spl-token-cli
 	```bash
 	solana-keygen new
 	```
+ 
+ 	> Ez egy új Solana kulcspárt hoz létre ez [*file system wallet*](https://docs.solana.com/wallet-guide/file-system-wallet) ként fog funkcionálni.<br>
+  	> A kulcspár generálása előtt egy *BIP39 Passphrase*-t fog kérni ami extra védlemként szolgál, de nekünk nincs szükségünkrá.<br>
+  	> Ird fel a nyilvános kulcsot!!
 
 2. Solana konfiguráció ellenőrzése
 	```bash
 	solana config get
 	```
 
-	Ha a WebSocket sorban ha nem  api.devnet.solana.com -ot látsz akkor nem vagy a teszthálózaton akkor a token létrehozásáért fizetned kell (+ a tranzakciókért), *a teszthálózaton semminek sincs valódi pénzbeli értéke.*
+	Ha a WebSocket sorban ha nem  api.devnet.solana.com -ot látsz akkor nem vagy a teszthálózaton akkor a token létrehozásáért fizetned kell (+ a tranzakciókért), *a teszthálózaton semminek sincs valódi pénzbeli értéke.*<br>
+
+	> A Solana-nak 3 *föbb* hálózata van:<br>
+ 	> ***Mainnet***: *valódi* pénz, tranzakcióknak *valódi* díja van, rengeteg pénztárac app érhető el <br>
+ 	> ***Devnet***: *nem valódi* SOL, tranzakcióknak *szimulált* dija van, RPC: https://api.devnet.solana.com <br>
+ 	> ***Testnet***: hasonló mint a devnet, viszont célja megának a hálózatnak a tesztelése, RPC: https://api.testnet.solana.com <br>   
 
 4. Ha ingyenesen szeretnél tokent létrehozni ezzel "léphetsz" be a teszthálózatba.
  	```bash  
@@ -68,22 +77,38 @@ cargo install spl-token-cli
 	```bash
 	spl-token create-token
 	```
+ 	> Egy pénztárcával több különböző tokent is létre tudsz hozni.
+  	> Tehét ha nem elégszel meg egy tokennel ettől a lépéstől kell megismételned a folyamatot :)
+  
 7. Fiók létrehozása a tokenünk számára (e nélkül nem tudnánk használni)
 	```bash  
 	spl-token create-account <token>
 	```
+ 	> Ez nem egy új számlát fog létrehozni hanem egy *fiókot* a pénztárcán belül a token számára <br>
+  	> Minden cryptovalutának szügsége van egy fiókra ahol tárolják őket, ezeket a fiókokat pedig a pénztárcán belül vannak. <br>
+  	> Egy fiók létrehozásáért fizetni kell (kevesebb mint 0,0001 SOL) <br>
+  
 8. Ezzel a parancsal tudsz tokent generálni. A tokenek az 1. lépésben létrahozott számlára fognak kerülni(egy számlán max 10 billió lehet).
 	```bash   
 	spl-token mint <token> <mennyiség>
 	```
+ 	> Ahoz hogy a tokenedből generálni tudj ahoz szügséged van arra a *file system wallet*-ra amelyikkel létrehoztad a tokent!
+
 9. Ezzel a parancsal nézheted meg, hogy mennyi tokened van
 	```bash   
 	spl-token accounts
 	```
-10. Ezzel a parancsal letilthatod a további tokenek generálását (csak ha már mindennel elégedett vagy :)
+10. Ezzel a parancsal letilthatod a további tokenek generálását
 	```bash   
 	spl-token authorize <token> mint --disable
 	```
+	> <picture>
+	>   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/danger.svg">
+	>   <img alt="Danger" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/danger.svg">
+	> </picture>
+ 	> Ezt a lépést ne végezd el addig amíg nem adtál metaadatot a tokenedhez!!
+
+
 ## IV. Metadata hozzáadása a tokenhez
 Metadata nélkül a token mindenhol “*Unknown Token*” néven fog megjelenni + ikon és szimbólum (pl:BTC) nélkül.
 
@@ -113,6 +138,8 @@ Metadata nélkül a token mindenhol “*Unknown Token*” néven fog megjelenni 
 	```bash   
 	solana transfer <pénztárca Solana címe> <mennyiség (összeset nem lehet)>
 	```
+ 	> Ezzel a parancsal kizárólag SOL-t tudsz utalni.
+  
 4. Küld az elkészült tokeneket a pénztárcádra és egyben hozz létre ott egy fiókot a token számára(`--fund-recipient`). Ez után mér nem kell használnod a Terminált :).
 	```bash
 	spl-transfer <token> <mennyiség (valamennyinek maradnia kell)> <pénztárca Solana címe> --fund-recipient
