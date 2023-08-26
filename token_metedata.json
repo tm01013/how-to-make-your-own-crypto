@@ -1,12 +1,12 @@
 {
 
-    "name": "Piros pont",
-    "symbol": "PP",
-    "uri": "https://raw.githubusercontent.com/tm01013/token-metadata/main/token_metedata_github.json", // RAW github link of the another json
+    "name": "Piros pont",    // Token neve / Name of the token
+    "symbol": "PP",          // Token jele / Token symbol
+    "uri": "https://raw.githubusercontent.com/tm01013/token-metadata/main/token_metedata_github.json", // link a másik json-hoz / RAW github link of the another json
     "seller_fee_basis_points": 100,
     "creators": [
         {
-            "address": "7ztU9iXBwNLBswajozYtKBXqTTTsdxwfaCEa17xPiVaY", // Address of the wallet that you created in stepp II/1
+            "address": "7ztU9iXBwNLBswajozYtKBXqTTTsdxwfaCEa17xPiVaY", // Az II/1 lépésben létrehozott pénztárca címe / Address of the wallet that you created in stepp II/1
             "verified": false,
             "share": 100
         }
