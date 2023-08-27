@@ -1,6 +1,6 @@
 # Hogyan készítsd el a saját cryptovalutádat ingyen?
 
-> For English version click [here](./README_ENG.md)
+> ***For English version click [here](./README_ENG.md)***
 
 Cryptovaluta létrehozásához a követketőkre lesz szügséged:
 - Akármilyen számitógépre, akár tableten is meg tudod csinálni
@@ -41,13 +41,13 @@ cargo install spl-token-cli
 
 ## II. Token létrehozása
 
-1. Új solana fiók létrehozása (Írd fel a kimenetet!)
+1. Új solana fiók létrehozása
 	```bash
 	solana-keygen new
 	```
  
  	> Ez egy új Solana kulcspárt hoz létre ez [*file system wallet*](https://docs.solana.com/wallet-guide/file-system-wallet) ként fog funkcionálni.<br>
-  	> A kulcspár generálása előtt egy *BIP39 Passphrase*-t fog kérni ami extra védlemként szolgál, de nekünk nincs szükségünkrá.<br>
+  	> A kulcspár generálása előtt egy *BIP39 Passphrase*-t fog kérni ami extra védlemként szolgál, de nekünk nincs feltétlenül szükségünk rá.<br>
   	> Ird fel a nyilvános kulcsot!!
 
 2. Solana konfiguráció ellenőrzése
@@ -57,8 +57,8 @@ cargo install spl-token-cli
 
 	Ha a WebSocket sorban ha nem  api.devnet.solana.com -ot látsz akkor nem vagy a teszthálózaton akkor a token létrehozásáért fizetned kell (+ a tranzakciókért), *a teszthálózaton semminek sincs valódi pénzbeli értéke.*<br>
 
-	> A Solana-nak 3 *föbb* hálózata van:<br>
- 	> ***Mainnet***: *valódi* pénz, tranzakcióknak *valódi* díja van, rengeteg pénztárac app érhető el <br>
+	> A Solana-nak 3 *föbb* hálózata van, mi a *Devnetet* fogjuk használi:<br>
+ 	> ***Mainnet***: *valódi* pénz, tranzakcióknak *valódi* díja van <br>
  	> ***Devnet***: *nem valódi* SOL, tranzakcióknak *szimulált* dija van, RPC: https://api.devnet.solana.com <br>
  	> ***Testnet***: hasonló mint a devnet, viszont célja megának a hálózatnak a tesztelése, RPC: https://api.testnet.solana.com <br>   
 
@@ -79,8 +79,8 @@ cargo install spl-token-cli
 	```bash
 	spl-token create-token
 	```
- 	> Egy pénztárcával több különböző tokent is létre tudsz hozni.
-  	> Tehét ha nem elégszel meg egy tokennel ettől a lépéstől kell megismételned a folyamatot :)
+ 	> Egy pénztárcával több különböző tokent is létre tudsz hozni. <br>
+  	> Tehát ha nem elégszel meg egy tokennel ettől a lépéstől kell megismételned a folyamatot :)
   
 7. Fiók létrehozása a tokenünk számára (e nélkül nem tudnánk használni)
 	```bash  
@@ -88,7 +88,7 @@ cargo install spl-token-cli
 	```
  	> Ez nem egy új számlát fog létrehozni hanem egy *fiókot* a pénztárcán belül a token számára <br>
   	> Minden cryptovalutának szügsége van egy fiókra ahol tárolják őket, ezeket a fiókokat pedig a pénztárcán belül vannak. <br>
-  	> Egy fiók létrehozásáért fizetni kell (kevesebb mint 0,0001 SOL) <br>
+  	> Egy fiók létrehozásáért fizetni kell (kevesebb mint 0,002 SOL) <br>
   
 8. Ezzel a parancsal tudsz tokent generálni. A tokenek az 1. lépésben létrahozott számlára fognak kerülni(egy számlán max 10 billió lehet).
 	```bash   
@@ -118,7 +118,7 @@ Metadata nélkül a token mindenhol “*Unknown Token*” néven fog megjelenni 
 	```bash   
 	bash <(curl -sSf https://raw.githubusercontent.com/samuelvanderwaal/metaboss/main/scripts/install.sh)
 	```
-2. Hozz létre két .json fájlt a mellékelt minták alapján, plusz egy ikont (png javasolt)
+2. Hozz létre két .json fájlt a token_metadata.json és a token_metadata_github.json minták alapján, plusz egy ikont (png javasolt)
 3. [Kövesd ezeket az utasításokat](/.how-to-upload-to-github/upload_to_github.md)
 5. Metadata hozzáadása a tokenhez
 	```bash   
