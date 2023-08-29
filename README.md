@@ -58,7 +58,7 @@ cargo install spl-token-cli
 	Ha a WebSocket sorban ha nem  api.devnet.solana.com -ot látsz akkor nem vagy a teszthálózaton akkor a token létrehozásáért fizetned kell (+ a tranzakciókért), *a teszthálózaton semminek sincs valódi pénzbeli értéke.*<br>
 
 	> A Solana-nak 3 *föbb* hálózata van, mi a *Devnetet* fogjuk használi:<br>
- 	> ***Mainnet***: *valódi* pénz, tranzakcióknak *valódi* díja van <br>
+ 	> ***Mainnet***: *valódi* pénz, tranzakcióknak *valódi* díja van, RPC: https://api.mainnet-beta.solana.com <br>
  	> ***Devnet***: *nem valódi* SOL, tranzakcióknak *szimulált* dija van, RPC: https://api.devnet.solana.com <br>
  	> ***Testnet***: hasonló mint a devnet, viszont célja megának a hálózatnak a tesztelése, RPC: https://api.testnet.solana.com <br>   
 
