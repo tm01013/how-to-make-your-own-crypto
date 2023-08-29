@@ -119,7 +119,7 @@ Metadata nélkül a token mindenhol “*Unknown Token*” néven fog megjelenni 
 	bash <(curl -sSf https://raw.githubusercontent.com/samuelvanderwaal/metaboss/main/scripts/install.sh)
 	```
 2. Hozz létre két .json fájlt a token_metadata.json és a token_metadata_github.json minták alapján, plusz egy ikont (png javasolt)
-3. [Kövesd ezeket az utasításokat](/.how-to-upload-to-github/upload_to_github.md)
+3. [Itt](/.how-to-upload-to-github/upload_to_github.md) megtudhatod, hogyan tölsd fel a token ikonját valamint a *token_metadata_github.json*-t a githubra és szerezd meg a raw linkeket.
 5. Metadata hozzáadása a tokenhez
 	```bash   
 	metaboss create metadata -a <token> -m <token_metadata.json fájl (nem a github-os)>
@@ -138,15 +138,18 @@ Metadata nélkül a token mindenhol “*Unknown Token*” néven fog megjelenni 
 
 	> Ha nem a teszthálózatot használód máshogy kell SOL-t juttatnod az új számládra.
 	```bash   
-	solana transfer <pénztárca Solana címe> <mennyiség (összeset nem lehet)>
+	solana transfer <pénztárca Solana címe> <mennyiség>
 	```
  	> Ezzel a parancsal kizárólag SOL-t tudsz utalni.
+  	> A számlán legalább 0,001 SOL-nak maradnia kell a tranzakció fizetéséhez.
   
 4. Küld az elkészült tokeneket a pénztárcádra és egyben hozz létre ott egy fiókot a token számára(`--fund-recipient`). Ez után mér nem kell használnod a Terminált :).
 	```bash
-	spl-transfer <token> <mennyiség (valamennyinek maradnia kell)> <pénztárca Solana címe> --fund-recipient
+	spl-transfer <token> <mennyiség> <pénztárca Solana címe> --fund-recipient
 	```
-   > Ne feletkezz meg arról hogy mindig szügséged lesz SOL-ra a tranzakciókhoz (ha a teszthálózatot használod és elfogyna hajsd végre a II/4 és a V/3 lépéseket)
+ 	> Legalább 0,000000001 tokennek maradnia kell. <br>
+
+> Ne feletkezz meg arról hogy mindig szügséged lesz SOL-ra a tranzakciókhoz (ha a teszthálózatot használod és elfogyna hajsd végre a II/4 és a V/3 lépéseket)
    
 <br><br>
 
