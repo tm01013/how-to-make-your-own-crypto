@@ -56,8 +56,8 @@ cargo install spl-token-cli
 	If you do not see api.devnet.solana.com in the WebSocket line , you are not on the developer network, then you have to pay for the creation of the token (+ for the transactions), *nothing on the developer network has a real monetary value.*<br>
 
 	> Solana has 3 *main* networks:<br>
- 	> ***Mainnet***: *real* money, transactions have *real* fees, lots of wallets app available <br>
- 	> ***Devnet***: *not real* money, transactions have *simulated* dia , RPC: https://api.devnet.solana.com <br>
+ 	> ***Mainnet***: *real* money, transactions have *real* fees, RPC: https://api.mainnet-beta.solana.com <br>
+ 	> ***Devnet***: *not real* money, transactions have *simulated* fees , RPC: https://api.devnet.solana.com <br>
  	> ***Testnet***: similar to devnet , but its purpose is to test the mega network, RPC: https://api.testnet.solana.com <br>
 
 4. If you want to create a token for free , you can "enter" the test network with this command.
