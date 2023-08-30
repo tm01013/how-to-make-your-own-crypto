@@ -23,7 +23,7 @@ Most már mindent tisztáztunk, kezdhetjük:
  
  **Mac (Terminal), Linux (Terminal), Google Cloud console:**
 ```bash
-sh -c "$(curl -sSfL https://release.solana.com/v1.16.9/install)”
+sh -c "$(curl -sSfL https://release.solana.com/v1.16.9/install)"
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
