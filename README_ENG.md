@@ -25,7 +25,9 @@ sh -c "$( curl -sSfL https://release.solana.com/v1.16.9/install)"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 cargo install spl-token-cli
-```	
+```
+> Then restart Terminal to work everithin fine <br>
+	
 **Windows (cmd):**
 ``` bash
 cmd /c "curl https://release.solana.com/v1.16.9/solana-install-init-x86_64-pc-windows-msvc.exe --output C:\solana-install-tmp\solana-install-init.exe --create-dirs"
@@ -36,6 +38,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 cargo install spl-token-cli
 ```
+> Then restart cmd to work everithin fine
 
 ## II. Token creation
 
