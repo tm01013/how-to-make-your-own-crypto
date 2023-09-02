@@ -2,13 +2,13 @@
     "name": "Piros pont", // <= Token neve / Name of the token
     "symbol": "PP", // <= Token jele / Token symbol
     "description": "Legpirosabb piros pont :)", // <= leírás / description
-    "image": "https://raw.githubusercontent.com/tm01013/token-image/main/token-image.png", //RAW link a token ikonjához, ehez hasonló a jó / RAW link to the icon
+    "image": "https://raw.githubusercontent.com/tm01013/token-image/main/token-image.png", // RAW link a token ikonjához, ehez hasonló a jó / RAW link to the icon
     "attributes": [],
     "properties": {
         "files": [
             {
-                "uri": "https://raw.githubusercontent.com/tm01013/token-image/main/token-image.png", //ugyanaz a link mint feljebb / the same link as up
-                "type": "image/png" //kép formátuma png javasolt / image format
+                "uri": "https://raw.githubusercontent.com/tm01013/token-image/main/token-image.png", // ugyanaz a link mint feljebb / the same link as up
+                "type": "image/png" // kép formátuma png javasolt / image format (png)
             }
         ]
     }
