@@ -120,7 +120,7 @@ Without metadata the token will apear as “*Unknown Token*”, and it won't hav
 	bash <(curl -sSf https://raw.githubusercontent.com/samuelvanderwaal/metaboss/main/scripts/install.sh)
 	```
 2. Create two .json file based on the attached samples, plus an icon ( png recommended)
-3. [You can find out here](/.how-to-upload-to-github/upload_to_github_ENG.md) how to upload the token icon and the *tokan_metadata_github.json* file to github and get they raw they links
+3. [You can find out here](/.how-to-upload-to-github/upload_to_github_ENG.md) how to upload the token icon and the *tokan_metadata_github.json* file to github and get they raw links
 5. Add metadata to the token
 	``` bash   
 	metaboss create metadata -a <token> -m <token_ metadata.json file (not the github one)>
