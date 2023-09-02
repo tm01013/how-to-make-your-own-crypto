@@ -19,6 +19,18 @@ Először is nem egy *"cryriptovalutát"* hozunk létre (mii??), hanem egy *Toke
 
 Most már mindent tisztáztunk, kezdhetjük:
 
+### Token creator
+A *'solana-token-creator'* segítségével 2 perc alatt elkészítheted a cryptovalutádat mindössze 1 paranccsal!
+1. Tölsd le a repo-t (*Code* => *Download Zip*)
+2. Nyisd meg a Terminált(Windows-al jelenleg nem kompatibilis) írd be az alábbi parancsot:
+   ```bash
+   bash <solana-token-creator.sh fájl 'címe'>
+   ```
+3. Először meg fogja kérdenzi, hogy a szügséges programokat telepítse-e. Ha először futtatod akkor muszály (vagy ha frissíteni akarod).
+   > Utánna zárd be a Terminált majd nyisd meg újra (ez feltétlenül szükséges)
+
+4. Neked sikerül a tőbbi 2 percen belül? :)
+
  ## I. Eszközök telepítése
  
  **Mac (Terminal), Linux (Terminal), Google Cloud console:**
