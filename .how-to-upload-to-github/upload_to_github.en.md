@@ -22,6 +22,6 @@
 6. After that click the *RAW* button and copy the link of the new page
 7. Finally open the *token_metadata.json* file (on your computer) and paste the link in the correct place
 
-### [You can jump back to the main guide now](/README_ENG.md#iv-add-metadata-to-the-token)
+### [You can jump back to the main guide now](/README.en.md#iv-add-metadata-to-the-token)
 
 <br><br>
