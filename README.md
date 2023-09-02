@@ -1,6 +1,6 @@
 # Hogyan készítsd el a saját cryptovalutádat ingyen?
 
-> ***For English version click [here](./README_ENG.md)***
+> ***For English version click [here](./README.en.md)***
 
 Cryptovaluta létrehozásához a követketőkre lesz szügséged:
 - Akármilyen számitógépre, akár tableten is meg tudod csinálni
