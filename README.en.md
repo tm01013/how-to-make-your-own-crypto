@@ -15,6 +15,18 @@ We aren't creating a *" cryriptocurrency "* (what??), but we are creating a  *To
 > However, creating a token is very easy and the function of the completed token is almost ***THE SAME*** as that of a cryptocurrency ( ok, only 95% ). <br><br>
 > In essence, you will create ***your own cryptocurrency*** without ***your own*** blockchain. <br>
 
+### Token creator
+With '*solana-token-creator*' you can create a crypto within 2 minutes with just 1 command!
+
+1. Download this repo (green *Code* button on the main page => *Download Zip*)
+2. Open Terminal (this isn't compatible with Windows jet) then enter the following command:
+   ``` bash
+   bash <location of 'solana-token-creator.sh'>
+   ```
+3. The program will ask you if you want to install the needed software. You will need to say "y" at the first time (or when you want to update)
+   > Then close and reopen Terminal (it's necessery to work correctly)
+
+4. Can you make your crypto within 2 minutes? :)   
 
 ## I. Installation of tools
  
