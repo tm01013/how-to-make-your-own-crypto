@@ -84,7 +84,7 @@ wallet=$( solana address )
 #Set network
 
 echo ""
-echo "Witch network do you want to use Mainnet or Devnet (m/d):"
+echo "Witch network do you want to use Mainnet(paid) or Devnet(free) (m/d):"
 
 read network
 if [[ $network == "m" ]]; then
