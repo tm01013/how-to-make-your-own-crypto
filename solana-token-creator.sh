@@ -56,8 +56,12 @@ if [[ $doInstall == "y" ]]; then
 	echo ""
 	echo "Cloning repository..."
 	echo ""
+	if [[ -d ~/how-to-make-your-own-crypto ]]; then
+		rm -r -f ~/how-to-make-your-own-crypto/
+	fi
 	git clone https://github.com/tm01013/how-to-make-your-own-crypto.git
 
+	echo ""
 	echo "Tools sucesessfully downloaded"
 	echo "Please restart your Terminal (close/reopen)!!"
 	echo "Then use the same command as before to countinue"
@@ -120,11 +124,7 @@ spl-token mint $token $(( $tokenAmount + 1 ))
 ##Metadata
 
 if [[ -d ~/Desktop/Solana-token-creator ]]; then
-	rm ~/Desktop/Solana-token-creator/.tmp/*
-	rm ~/Desktop/Solana-token-creator/*
-
-	rmdir ~/Desktop/Solana-token-creator/.tmp
-	rmdir ~/Desktop/Solana-token-creator/
+	rm -r -f ~/Desktop/Solana-token-creator/
 	mkdir ~/Desktop/Solana-token-creator
 	mkdir ~/Desktop/Solana-token-creator/.tmp
 else
