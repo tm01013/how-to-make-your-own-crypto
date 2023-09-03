@@ -3,7 +3,7 @@
 #This script is only for Mac and Linux
 #Ez a kód kizárólag Mac és Linux rendszereken működik
 
-# © Tatár Márton 2023
+# ©Tatár Márton 2023
 
 echo "                              
                               
