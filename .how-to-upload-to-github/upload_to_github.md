@@ -22,6 +22,6 @@
 6. Majd a *RAW* gombra kattintva szerezd meg a linket ugyanúgy ahogy az ikonnál tetted
 7. Ezután nyisd meg a token_metadata.json-t (a gépeden) és a megfelelő helyre illeszd be a linket
 
-### [Most már viszzatérhetsz a fő leíráshoz :)](/README.md#iv-metadata-hozzáadása-a-tokenhez)
+### [Most már viszzatérhetsz a fő leíráshoz :)](/README.hu.md#iv-metadata-hozzáadása-a-tokenhez)
 
 <br><br>
