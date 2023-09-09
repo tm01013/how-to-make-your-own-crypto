@@ -1,5 +1,7 @@
 # How to create your own cryptocurrency for free?
 
+> ***Magyar verzióért kattints [ide](./README.hu.md)***
+
 To create cryptocurrency, you will need the following :
 - A computer or even a tablet
 - A free GitHub account
@@ -10,10 +12,11 @@ To create cryptocurrency, you will need the following :
 
 ### How does this work?
 We aren't creating a *" cryriptocurrency "* (what??), but we are creating a  *Token*. <br>
-> Tokens don't have their own blockchain and network, they uses a network of an existing cryptocurrency (in our case, Solana's). <br>
-> Creating a *" cryptocurrency "* requires a ***very high*** level of programming skills and a **lot** of resources and time. <br>
-> However, creating a token is very easy and the function of the completed token is almost ***THE SAME*** as that of a cryptocurrency ( ok, only 95% ). <br><br>
-> In essence, you will create ***your own cryptocurrency*** without ***your own*** blockchain. <br>
+- Tokens don't have their own blockchain and network, they uses a network of an existing cryptocurrency (in our case, Solana's).
+- Creating a *" cryptocurrency "* requires a ***very high*** level of programming skills and a **lot** of resources and time.
+- However, creating a token is very easy and the function of the completed token is almost ***THE SAME*** as that of a cryptocurrency ( ok, only 95% ).
+
+- In essence, you will create ***your own cryptocurrency*** without ***your own*** blockchain. <br>
 
 ### Token creator
 With '*solana-token-creator*' you can create a crypto within 2 minutes with just 1 command!
