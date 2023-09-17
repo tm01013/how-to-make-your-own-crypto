@@ -32,6 +32,7 @@ isSucesess ()
 	fi
 }
 
+# Check if os is supported
 case "$OSTYPE" in
     solaris*) echo "Unsupported operating system: 'Solaris'"
 			  exit;;
@@ -52,6 +53,7 @@ case "$OSTYPE" in
 			  exit;;
 esac
 
+# Check if Desktop directory is exists (Google cloud console)
 if [[ ! -d $HOME/Desktop ]]; then
 	mkdir $HOME/Desktop
 fi
@@ -61,77 +63,186 @@ if [[ $( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd ) == $H
 	exit
 fi
 
-
-echo "Do you want to install the needed software? (y/n):"
-echo "This only required for the first time"
-read doInstall
-
-if [[ $doInstall == "y" ]]; then
-
-	if [[ $( whoami ) != "root" ]]; then
-		echo "Installation requires sudo permission!"
-		exit	
-	fi
-
-	echo "Downloading tools this will take some time..."
+# Check if cargo is installed
+cargo --version
+if [[ ! $? -eq 0 ]]; then
 	echo ""
-	sleep 4
-
-	echo "Installing solana cli..."
-	echo ""
-	sh -c "$(curl -sSfL https://release.solana.com/v1.16.9/install)"
-	isSucesess
-	sleep 1
-
-	echo ""
-	echo "Installing Rust..."
-	echo ""
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-	isSucesess
-	sleep 1
-
-	if [[ $OSTYPE == "linux-gnu"* ]]; then
-		isSucesess
-		echo ""
-		echo "Installing Cargo..."
-		echo ""
-		apt install cargo
-		isSucesess
-	fi
-
-	echo ""
-	echo "Installing spl-token..."
-	echo ""
-	cargo install spl-token-cli
-	if [[ ! $? -eq 0 ]]; then
-		echo "Error installing 'spl-token-cli' try to restart terminal and installation"
-		exit
-	fi
-	sleep 1
-
-	echo ""
-	echo "Installing Metaboss..."
-	echo ""
-	bash <(curl -sSf https://raw.githubusercontent.com/samuelvanderwaal/metaboss/main/scripts/install.sh)
-	isSucesess
-	sleep 1
-
-	echo ""
-	echo "Cloning repository..."
-	echo ""
-	if [[ -d $HOME/how-to-make-your-own-crypto ]]; then
-		rm -r -f $HOME/how-to-make-your-own-crypto/
-		isSucesess
-	fi
-	git clone https://github.com/tm01013/how-to-make-your-own-crypto.git
-	isSucesess
-
-	echo ""
-	echo "Tools sucesessfully downloaded"
-	echo "Please restart your Terminal (close/reopen)!!"
-	echo "Then use the same command as before to countinue"
+	echo "Rust and cargo not installed. Please install with 'curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh' and 'apt install cargo' (on linux)."
+	echo "Then restart your Terminal"
 	exit
 fi
+
+isAllInstalled="y"
+isSolanaInstalled="y"
+isSplInstalled="y"
+isMetabossInstalled="y"
+isRepoCloned="y"
+
+# Check if solana is installed
+PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+solana --version
+if [[ ! $? -eq 0 ]]; then
+	isAllInstalled="n"
+	isSolanaInstalled="n"
+fi
+
+# Check if spl-token is installed
+spl-token --version
+if [[ ! $? -eq 0 ]]; then
+	isAllInstalled="n"
+	isSplInstalled="n"
+fi
+
+# Check if metaboss is installed
+metaboss --version
+if [[ ! $? -eq 0 ]]; then
+	isAllInstalled="n"
+	isMetabossInstalled="n"
+fi
+
+if [[ ! -d $HOME/how-to-make-your-own-crypto ]]; then
+	isAllInstalled="n"
+	isRepoCloned="n"
+fi
+
+# If something is not installed install everithing
+if [[ $isAllInstalled == "n" ]]; then
+	echo "Installation required, do you want to countinue? (y/n):"
+	read doInstall
+
+	if [[ $doInstall == "n" ]]; then
+		exit
+	fi
+
+	if [[ $doInstall == "y" ]]; then
+
+		echo "Downloading tools this will take some time..."
+		echo ""
+		sleep 4
+
+		if [[ $isSplInstalled == "n" ]]; then
+			echo ""
+			echo "Installing spl-token..."
+			echo ""
+			rm -rf /tmp/cargo-install*/
+			cargo install spl-token-cli
+			if [[ ! $? -eq 0 ]]; then
+				echo "Error installing 'spl-token-cli' try to restart terminal and installation"
+				exit
+			fi
+			sleep 1
+		fi
+
+		if [[ $isSolanaInstalled == "n" ]]; then
+			echo ""
+			echo "Installing solana cli..."
+			echo ""
+			sh -c "$(curl -sSfL https://release.solana.com/v1.16.9/install)"
+			isSucesess
+			PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+			sleep 1
+		fi
+		
+		if [[ $isMetabossInstalled == "n" ]]; then
+			echo ""
+			echo "Installing Metaboss..."
+			echo ""
+			bash <(curl -sSf https://raw.githubusercontent.com/samuelvanderwaal/metaboss/main/scripts/install.sh)
+			isSucesess
+			sleep 1
+		fi
+
+		if [[ $isRepoCloned == "n" ]]; then
+			echo ""
+			echo "Cloning repository..."
+			echo ""
+			if [[ -d $HOME/how-to-make-your-own-crypto ]]; then
+				rm -rf $HOME/how-to-make-your-own-crypto/
+				isSucesess
+			fi
+			git clone https://github.com/tm01013/how-to-make-your-own-crypto.git
+			isSucesess
+		fi
+
+		echo ""
+		echo "Tools sucesessfully downloaded"
+		echo "Please restart your Terminal (close/reopen)!!"
+		echo "Then use the same command as before to countinue"
+		exit
+	fi
+fi
+# echo "Do you want to install the needed software? (y/n):"
+# echo "This only required for the first time"
+# read doInstall
+
+# if [[ $doInstall == "y" ]]; then
+
+# 	if [[ $( whoami ) != "root" ]]; then
+# 		echo "Installation requires sudo permission!"
+# 		exit	
+# 	fi
+
+# 	echo "Downloading tools this will take some time..."
+# 	echo ""
+# 	sleep 4
+
+# 	echo "Installing solana cli..."
+# 	echo ""
+# 	sh -c "$(curl -sSfL https://release.solana.com/v1.16.9/install)"
+# 	isSucesess
+# 	export PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
+# 	sleep 1
+
+# 	echo ""
+# 	echo "Installing Rust..."
+# 	echo ""
+# 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# 	isSucesess
+# 	sleep 1
+
+# 	if [[ $OSTYPE == "linux-gnu"* ]]; then
+# 		isSucesess
+# 		echo ""
+# 		echo "Installing Cargo..."
+# 		echo ""
+# 		apt update -y
+# 		apt install cargo
+# 		isSucesess
+# 	fi
+
+# 	echo ""
+# 	echo "Installing spl-token..."
+# 	echo ""
+# 	cargo install spl-token-cli
+# 	if [[ ! $? -eq 0 ]]; then
+# 		echo "Error installing 'spl-token-cli' try to restart terminal and installation"
+# 		exit
+# 	fi
+# 	sleep 1
+
+# 	echo ""
+# 	echo "Installing Metaboss..."
+# 	echo ""
+# 	bash <(curl -sSf https://raw.githubusercontent.com/samuelvanderwaal/metaboss/main/scripts/install.sh)
+# 	isSucesess
+# 	sleep 1
+
+# 	echo ""
+# 	echo "Cloning repository..."
+# 	echo ""
+# 	if [[ -d $HOME/how-to-make-your-own-crypto ]]; then
+# 		rm -r -f $HOME/how-to-make-your-own-crypto/
+# 		isSucesess
+# 	fi
+# 	git clone https://github.com/tm01013/how-to-make-your-own-crypto.git
+# 	isSucesess
+
+# 	echo ""
+# 	echo "Tools sucesessfully downloaded"
+# 	echo "Please restart your Terminal (close/reopen)!!"
+# 	echo "Then use the same command as before to countinue"
+# 	exit
+# fi
 #Create wallet
 
 echo ""
