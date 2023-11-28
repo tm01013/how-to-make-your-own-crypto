@@ -137,12 +137,13 @@ Without metadata the token will apear as “*Unknown Token*”, and it won't hav
 	> Important! Remove my comments (starting with `//`) form the json files before countinue!
 3. First upload the token image to GitHub or any other public service and get is's raw link
 4. Replace the image link in the *token_metadata_github.json* file to the previously copied one
-5. Upload this file to Npoint.io or Github.
-6. Add metadata to the token
+5. Upload this file to Npoint.io or Github, get it's referance link.
+6. Replace the off-chain metadata link in the *token_metadata.json* file to the preveriously copied.
+7. Add metadata to the token
 	``` bash   
 	metaboss create metadata -a <token> -m <token_ metadata.json file (not the github one)>
 	```
-7. Your token is ***DONE*** :)
+8. Your token is ***DONE*** :)
 
 ## V. Use the Token
 
