@@ -4,7 +4,6 @@
 
 To create cryptocurrency, you will need the following :
 - A computer or even a tablet
-- A free GitHub account
 - Basic skills for using the Terminal (or cmd).
 - Basic knowledge to write json code
   
@@ -136,12 +135,14 @@ Without metadata the token will apear as “*Unknown Token*”, and it won't hav
 	```
 2. Create two .json file based on the attached samples, plus an icon ( png recommended)
 	> Important! Remove my comments (starting with `//`) form the json files before countinue!
-3. [You can find out here](/.how-to-upload-to-github/upload_to_github.en.md) how to upload the token icon and the *tokan_metadata_github.json* file to github and get they raw links
-4. Add metadata to the token
+3. First upload the token image to GitHub or any other public service and get is's raw link
+4. Replace the image link in the *token_metadata_github.json* file to the previously copied one
+5. Upload this file to Npoint.io or Github.
+6. Add metadata to the token
 	``` bash   
 	metaboss create metadata -a <token> -m <token_ metadata.json file (not the github one)>
 	```
-5. Your token is ***DONE*** :)
+7. Your token is ***DONE*** :)
 
 ## V. Use the Token
 
