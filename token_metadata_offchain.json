@@ -1,0 +1,15 @@
+{
+  "name": "Example token",
+  "symbol": "EXT",
+  "description": "Awsome token :)",
+  "image": "https://example.com/your_token_icon.png",
+  "attributes": [],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://example.com/your_token_icon.png",
+        "type": "image/png"
+      }
+    ]
+  }
+}

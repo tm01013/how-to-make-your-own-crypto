@@ -1,0 +1,13 @@
+{
+  "name": "Example token",
+  "symbol": "EXT",
+  "uri": "https://another.example.com/your_offchain_metadata_link.json",
+  "seller_fee_basis_points": 100,
+  "creators": [
+    {
+      "address": " wallet address that you created the token with",
+      "verified": false,
+      "share": 100
+    }
+  ]
+}
