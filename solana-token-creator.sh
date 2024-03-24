@@ -53,11 +53,6 @@ case "$OSTYPE" in
 			  exit;;
 esac
 
-if [[ $( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd ) == $HOME/how-to-make-your-crypto ]]; then
-	echo "Please move this script away from $HOME/how-to-make-your-crypto"
-	exit
-fi
-
 # Check if cargo is installed
 cargo --version
 if [[ ! $? -eq 0 ]]; then
@@ -71,7 +66,6 @@ isAllInstalled="y"
 isSolanaInstalled="y"
 isSplInstalled="y"
 isMetabossInstalled="y"
-isRepoCloned="y"
 
 # Check if solana is installed
 PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
@@ -93,11 +87,6 @@ metaboss --version
 if [[ ! $? -eq 0 ]]; then
 	isAllInstalled="n"
 	isMetabossInstalled="n"
-fi
-
-if [[ ! -d $HOME/how-to-make-your-own-crypto ]]; then
-	isAllInstalled="n"
-	isRepoCloned="n"
 fi
 
 # If something is not installed install everithing
@@ -147,18 +136,6 @@ if [[ $isAllInstalled == "n" ]]; then
 			sleep 1
 		fi
 
-		if [[ $isRepoCloned == "n" ]]; then
-			echo ""
-			echo "Cloning repository..."
-			echo ""
-			if [[ -d $HOME/how-to-make-your-own-crypto ]]; then
-				rm -rf $HOME/how-to-make-your-own-crypto/
-				isSucesess
-			fi
-			git clone https://github.com/tm01013/how-to-make-your-own-crypto.git
-			isSucesess
-		fi
-
 		echo ""
 		echo "Tools sucesessfully downloaded"
 		echo "Please restart your Terminal (close/reopen)!!"
@@ -167,7 +144,6 @@ if [[ $isAllInstalled == "n" ]]; then
 	fi
 fi
 
-
 #Create wallet
 
 echo ""
@@ -175,8 +151,21 @@ echo "Do you vant to create a new file system wallet? This will remove your exis
 
 read doCreateWallet
 if [[ $doCreateWallet == "y" ]]; then
-	solana-keygen new --force	#Create wallet
-	isSucesess
+	solana address > /dev/null 2>&1
+	if [[  $? -eq 0 ]]; then
+		echo "Warning! You have an existing wallet, creating a new one will delete the exising one!"
+		echo "Do you still want to countinue? (y/n):"
+		read doOverwriteWallet
+		if [[ $doOverwriteWallet == "y" ]]; then
+			echo ""
+			solana-keygen new --force	#Create wallet
+			isSucesess
+		fi
+	else
+		echo ""
+		solana-keygen new --force	#Create wallet
+		isSucesess
+	fi
 fi
 
 wallet=$( solana address )
@@ -192,7 +181,7 @@ if [[ $network == "m" ]]; then
 	solana config set --url https://api.mainnet-beta.solana.com
 	isSucesess
 	echo "Please send 0,5 SOL to this ($wallet) wallet!"
-	sleep 10
+	sleep 4
 	echo "Press Enter to countinue..."
 	read
 elif [[ $network == "d" ]]; then
@@ -229,33 +218,25 @@ read tokenAmount
 if [[ $tokenAmount > 18446744070 ]]; then
 	echo "The enterd amount is invalid!"
 	echo "Countinueing with 18000000000 tokens."
-	$tokenAmount=18000000000
+	tokenAmount=18000000000
 fi	
 
 #Mint token
-spl-token mint $token $(( $tokenAmount + 1 ))
+echo "Minting token..."
+spl-token mint $token $(( $tokenAmount + 1 )) > /dev/null 2>&1
 isSucesess
 
 ##Metadata
 
-if [[ -d $HOME/Solana-token-creator ]]; then
-	rm -r -f $HOME/Solana-token-creator/
-	isSucesess
+if [[ ! -d $HOME/Solana-token-creator ]]; then
 	mkdir $HOME/Solana-token-creator
 	isSucesess
-	mkdir $HOME/Solana-token-creator/.tmp
 else
+	rm -rf $HOME/Solana-token-creator
+	isSucesess
 	mkdir $HOME/Solana-token-creator
 	isSucesess
-	mkdir $HOME/Solana-token-creator/.tmp
 fi
-
-#cp $HOME/how-to-make-your-own-crypto/token_metadata.json $HOME/Solana-token-creator/token_metadata.json
-#cp $HOME/how-to-make-your-own-crypto/token_metadata_github.json $HOME/Solana-token-creator/token_metadata_github.json
-
-#Replace wallet address to correct one
-sed  's/7ztU9iXBwNLBswajozYtKBXqTTTsdxwfaCEa17xPiVaY/'"$wallet"'/g' $HOME/how-to-make-your-own-crypto/token_metadata.json >> $HOME/Solana-token-creator/.tmp/token_metadata1.json			#sima1
-isSucesess
 
 echo ""
 echo "How to name your token?:"
@@ -264,25 +245,8 @@ read tokenName
 echo "What symbol do you want?:"
 read tokenSymbol
 
-# #Replace names to correct one
-# sed 's/Piros pont/'"$tokenName"'/g' $HOME/Solana-token-creator/.tmp/token_metadata1.json >> $HOME/Solana-token-creator/.tmp/token_metadata2.json									#sima2
-# isSucesess
-# sed 's/Piros pont/'"$tokenName"'/g' $HOME/how-to-make-your-own-crypto/token_metadata_github.json >> $HOME/Solana-token-creator/.tmp/token_metadata_github1.json								#github1
-# isSucesess
-# #Replace symbols to correct one
-
-# sed 's/PP/'"$tokenSymbol"'/g' $HOME/Solana-token-creator/.tmp/token_metadata2.json >> $HOME/Solana-token-creator/.tmp/token_metadata3.json											#sima3
-# isSucesess
-# sed 's/PP/'"$tokenSymbol"'/g' $HOME/Solana-token-creator/.tmp/token_metadata_github1.json >> $HOME/Solana-token-creator/.tmp/token_metadata_github2.json							#github2
-# isSucesess
-
-# echo "How to describe your token? (description):"
-# read tokenDescription
-
-# #Replace description to correct one
-# sed 's/Legpirosabb piros pont :)/'"$tokenDescription"'/g' $HOME/Solana-token-creator/.tmp/token_metadata_github2.json >> $HOME/Solana-token-creator/.tmp/token_metadata_github3.json	#github3
-# isSucesess
-
+echo "Enter a description for your token:"
+read tokenDescription
 
 echo ""
 echo "Uplad the token icon to GitHub or any other service"
@@ -290,69 +254,21 @@ sleep 4
 echo "If you done paste here the link of the token icon:"
 read iconLink
 
-# sed 's#https://raw.githubusercontent.com/tm01013/token-image/main/token-image.png#'"$iconLink"'#g' $HOME/Solana-token-creator/.tmp/token_metadata_github3.json >> $HOME/Solana-token-creator/.tmp/token_metadata_github4.json		#github4
-# isSucesess
-# sed 's#// .*# #g' $HOME/Solana-token-creator/.tmp/token_metadata_github4.json >> $HOME/Solana-token-creator/token_metadata_github.json
-# isSucesess
+OffChainMetadata="{ \"name\": \"$tokenName\", \"symbol\": \"$tokenSymbol\", \"description\": \"$tokenDescription\", \"image\": \"$iconLink\", \"attributes\": [], \"properties\": { \"files\": [ { \"uri\": \"$iconLink\", \"type\": \"image/png\" } ] } }"
 
-read -d '\n' OffChainMetadata << EndOfText
-{
-    "name": "$tokenName", 
-    "symbol": "$tokenSymbol", 
-    "description": "$tokenDescription", 
-    "image": "$iconLink", 
-    "attributes": [],
-    "properties": {
-        "files": [
-            {
-                "uri": "$iconLink",
-                "type": "image/png"
-            }
-        ]
-    }
-}
-EndOfText
-
-cat $OffChainMetadata >> $HOME/Solana-token-creator/off-chain_token_metadata.json
+echo "$OffChainMetadata" >> $HOME/Solana-token-creator/off-chain_token_metadata.json
 
 echo ""
-echo "Uplad the 'off-chain_token_metadata.json' file($HOME/Solana-token-creator/) to GitHub or npoint.io"
-echo "To get help follow step IV/3 in my repo (https://github.com/tm01013/how-to-make-your-own-crypto)"
+echo "Uplad the 'off-chain_token_metadata.json' file($HOME/Solana-token-creator/) to Npoint.io (or Github)"
+echo "To get help follow step IV/5 in my repo (https://github.com/tm01013/how-to-make-your-own-crypto)"
 sleep 4
 
 echo "If you done paste here the link of the file:"
 read metadataLink
 
-#Replace metadata link to the correct one
+OnChainMetadata="{ \"name\": \"$tokenName\", \"symbol\": \"$tokenSymbol\", \"uri\": \"$metadataLink\", \"seller_fee_basis_points\": 100, \"creators\": [ { \"address\": \"$wallet\", \"verified\": false, \"share\": 100 } ] }"
 
-# sed 's#https://raw.githubusercontent.com/tm01013/token-metadata/main/token_metedata_github.json#'"$metadataLink"'#g' $HOME/Solana-token-creator/.tmp/token_metadata3.json >> $HOME/Solana-token-creator/.tmp/token_metadata4.json	#sima4
-# isSucesess
-
-# sed 's#// .*# #g' $HOME/Solana-token-creator/.tmp/token_metadata4.json >> $HOME/Solana-token-creator/token_metadata.json
-# isSucesess
-
-# #Remove temporary files
-# rm $HOME/Solana-token-creator/.tmp/*
-# isSucesess
-
-read -d '\n' OnChainMetadata << EndOfText
-{
-
-    "name": "$tokenName",
-    "symbol": "$tokenSymbol",
-    "uri": "$metadataLink",
-    "seller_fee_basis_points": 100,
-    "creators": [
-        {
-            "address": "$wallet",
-            "verified": false,
-            "share": 100
-        }
-    ]
-}
-EndOfText
-
-cat $OnChainMetadata >> $HOME/Solana-token-creator/on-chain_token_metadata.json
+echo "$OnChainMetadata" >> $HOME/Solana-token-creator/on-chain_token_metadata.json
 
 metaboss create metadata -a $token -m $HOME/Solana-token-creator/on-chain_token_metadata.json
 isSucesess
@@ -361,15 +277,19 @@ echo ""
 echo "Your token is done!!"
 
 echo ""
-echo "Enter your wallet address to transfer $tokenAmount $tokenSymbol to your wallet:"
+echo "Enter your wallet address to transfer $tokenAmount$tokenSymbol to your wallet:"
 read destinationWallet
 
 if [[ $network == "d" ]]; then
-	solana transfer $destinationWallet 3 --allow-unfunded-recipient
+	solana transfer $destinationWallet 3 --allow-unfunded-recipient > /dev/null 2>&1
 fi 
 
-spl-token transfer $token $tokenAmount $destinationWallet --fund-recipient --allow-unfunded-recipient
+echo "Transferring tokens..."
+spl-token transfer $token $tokenAmount $destinationWallet --fund-recipient --allow-unfunded-recipient > /dev/null 2>&1
 isSucesess
+
+echo ""
+echo "Don't worry if you see your token as "Unrecognised Token" just wait 2-4 minutes to let the network process the changes"
 
 echo ""
 echo "Do you want to disable mint? (y/n):"
@@ -379,7 +299,7 @@ read doDisableMint
 if [[ $doDisableMint == "y" ]]; then
 	echo "|------------------------!!WARNING!!-------------------------|"
 	echo "| If you disable mint you cannot get any more of your token! |"
-	echo "| And you cannot update teh metadata!                        |"
+	echo "| And you cannot update the metadata!                        |"
 	echo "| Please check everithing is correct before countinue!       |"
 	echo "|------------------------------------------------------------|"
 	sleep 3
@@ -390,7 +310,7 @@ if [[ $doDisableMint == "y" ]]; then
 	if [[ $doCountinue == "y" ]]; then
 		spl-token authorize $token mint --disable
 		isSucesess
-		spl-token burn $account 1
+		spl-token burn $account 1 > /dev/null 2>&1 # Remove the extra token generated becouse for some vierd reason solana doesn't allow sending all tokens
 		isSucesess
 	fi
 fi
@@ -400,8 +320,8 @@ echo "You're done!! 🎉 Congratulations you've created a crypo!! 🎉"
 
 if [[ $network == "m" ]]; then
 	echo ""
-	echo "View on solscan: solscan.io/token/$token"
+	echo "View on solscan: https://solscan.io/token/$token"
 else
 	echo ""
-	echo "View on solscan: solscan.io/token/$token?cluster=devnet"
+	echo "View on solscan: https://solscan.io/token/$token?cluster=devnet"
 fi

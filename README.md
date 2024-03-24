@@ -9,7 +9,11 @@ To create cryptocurrency, you will need the following :
 - Basic knowledge to write json code
 - Internet connection
 
-> It has been tested on Mac os big sur, Ubuntu 20.14 LTS and Google cloud.
+> It has been tested on:
+>
+> - Mac os Big Sur
+> - Ubuntu 20.14 LTS
+> - Google cloud
 
 ### How does this work?
 
@@ -161,12 +165,15 @@ Without metadata the token will apear as “_Unknown Token_”, and it won't hav
    > **Important!** Remove my comments (starting with `//`) form the json files before countinue!
 3. First upload the token image to GitHub or any other public service and get is's raw link
 4. Replace the image link in the _token_metadata_offchain.json_ file to the previously copied one
-5. Upload this file to Npoint.io or Github, get it's referance link.
+5. Upload this file to [Npoint.io](https://www.npoint.io/) (or Github), get it's referance link (on Npoint.io it's on the bottom).
 6. Replace the off-chain metadata link in the _token_metadata_onchain.json_ file to the preveriously copied.
 7. Add metadata to the token
    ```bash
    metaboss create metadata -a <token> -m <token_metadata_onchain.json file>
    ```
+
+> Don't worry if you see your token as _"Unrecognised Token"_ just wait 2-4 minutes to let the network process the changes
+
 8. Your token is **_DONE_** :)
 
 ## V. Use the Token
@@ -190,9 +197,13 @@ Without metadata the token will apear as “_Unknown Token_”, and it won't hav
    > You can only transfer to SOL with this command .
 
 4. Send the completed tokens to your wallet and at the same time create an account for the token there (`--fund-recipient`). After that, you don't have to use the Terminal :).
+
    ```bash
    spl-transfer <token> <amount (some must remain)> <wallet Solana address> --fund-recipient
    ```
+
+   > Don't worry if you see your token as _"Unrecognised Token"_ just wait 2-4 minutes to let the network process the changes
+
    > Don't forget that you will always need SOL for transactions (if you use the test network and run out, complete steps II/4 and V/3)
 
 <br><br>
