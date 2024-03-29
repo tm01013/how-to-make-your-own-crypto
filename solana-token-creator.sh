@@ -3,7 +3,7 @@
 #This script is only for Mac and Linux
 #Ez a kód kizárólag Mac és Linux rendszereken működik
 
-# ©Tatár Márton 2023
+# Copyright: Márton Tatár 2024
 
 echo "                              
                               
@@ -32,6 +32,66 @@ isSucesess ()
 	fi
 }
 
+updateMetadataMode()
+{
+	echo ""
+	echo "Enter the token's mint address:"
+	read tokenMintAddr
+
+	echo "Select what you want to update from the following list: (1-6)"
+	echo "  (1) Token name"
+	echo "  (2) Token symbol"
+	echo "  (3) Off-chain metadata uri"
+	echo "  (4) Add a custom field"
+	echo "  (5) Edit a custom field"
+	echo "  (6) Remove a custom field"
+	read option
+
+	case $option in
+
+		1) 	echo "Enter the new name for the token:"
+			read newName
+			spl-token update-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr "name" "$newName" > /dev/null
+			echo "This only changed the ON-CHAIN metadata!"
+			echo "To make the token's name displayed as \"$newName\" you also need to change or create a new off-chain metadata"
+			exit;;
+
+		2)	echo "Enter the new symbol for the token:"
+			read newSymbol
+			spl-token update-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr "symbol" "$newSymbol" > /dev/null
+			echo "This only changed the ON-CHAIN metadata!"
+			echo "To make the token's symbol displayed as \"$newSymbol\" you also need to change or create a new off-chain metadata"
+			exit;;
+
+		3)	echo "Enter the new off-chain metadata uri for the token:"
+			read newUri
+			spl-token update-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr "uri" $newUri > /dev/null
+			exit;;
+
+		4)	echo "Enter the field's name:"
+			read field
+			echo "Enter the field's data:"
+			read fieldData
+			spl-token update-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr "$field" "$fieldData"
+			exit;;
+		
+		5)	echo "Enter the field's name:"
+			read field
+			echo "Enter the field's new data:"
+			read fieldData
+			spl-token update-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr "$field" "$fieldData"
+			exit;;
+		
+		6)	echo "Enter the field's name:"
+			read field
+			spl-token update-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb  $tokenMintAddr "$field" --remove
+			exit;;
+
+		*) echo "The selected option is invalid!"
+			exit;;
+	esac
+}
+
 # Check if os is supported
 case "$OSTYPE" in
     solaris*) echo "Unsupported operating system: 'Solaris'"
@@ -53,19 +113,8 @@ case "$OSTYPE" in
 			  exit;;
 esac
 
-# Check if cargo is installed
-cargo --version
-if [[ ! $? -eq 0 ]]; then
-	echo ""
-	echo "Rust and cargo not installed. Please install with 'curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh' and 'apt install cargo' (on linux)."
-	echo "Then restart your Terminal"
-	exit
-fi
-
 isAllInstalled="y"
 isSolanaInstalled="y"
-isSplInstalled="y"
-isMetabossInstalled="y"
 
 # Check if solana is installed
 PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
@@ -73,20 +122,21 @@ solana --version
 if [[ ! $? -eq 0 ]]; then
 	isAllInstalled="n"
 	isSolanaInstalled="n"
+
+else
+	solanaVersion=$( solana --version | awk '{print $2}' )
+	if [[ "$(printf "%s\n" "1.18.4" "$solanaVersion" | sort -V | head -n 1)" != "1.18.4" ]]; then
+    	echo "The installed version of Solana is outdated, update required"
+		isAllInstalled="n"
+		isSolanaInstalled="n"
+	fi
 fi
 
 # Check if spl-token is installed
 spl-token --version
 if [[ ! $? -eq 0 ]]; then
 	isAllInstalled="n"
-	isSplInstalled="n"
-fi
-
-# Check if metaboss is installed
-metaboss --version
-if [[ ! $? -eq 0 ]]; then
-	isAllInstalled="n"
-	isMetabossInstalled="n"
+	isSolanaInstalled="n"
 fi
 
 # If something is not installed install everithing
@@ -104,35 +154,13 @@ if [[ $isAllInstalled == "n" ]]; then
 		echo ""
 		sleep 4
 
-		if [[ $isSplInstalled == "n" ]]; then
-			echo ""
-			echo "Installing spl-token..."
-			echo ""
-			rm -rf /tmp/cargo-install*/
-			cargo install spl-token-cli
-			if [[ ! $? -eq 0 ]]; then
-				echo "Error installing 'spl-token-cli' try to restart terminal and installation"
-				exit
-			fi
-			sleep 1
-		fi
-
 		if [[ $isSolanaInstalled == "n" ]]; then
 			echo ""
 			echo "Installing solana cli..."
 			echo ""
-			sh -c "$(curl -sSfL https://release.solana.com/v1.16.9/install)"
+			sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
 			isSucesess
 			PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
-			sleep 1
-		fi
-		
-		if [[ $isMetabossInstalled == "n" ]]; then
-			echo ""
-			echo "Installing Metaboss..."
-			echo ""
-			bash <(curl -sSf https://raw.githubusercontent.com/samuelvanderwaal/metaboss/main/scripts/install.sh)
-			isSucesess
 			sleep 1
 		fi
 
@@ -144,8 +172,12 @@ if [[ $isAllInstalled == "n" ]]; then
 	fi
 fi
 
-#Create wallet
+if [[ $1 == "--edit-metadata-mode" ]]; then
+	updateMetadataMode
+	exit
+fi
 
+#Create wallet
 echo ""
 echo "Do you vant to create a new file system wallet? This will remove your existing one! (y/n): "
 
@@ -178,14 +210,14 @@ echo "Witch network do you want to use Mainnet(paid) or Devnet(free) (m/d):"
 
 read network
 if [[ $network == "m" ]]; then
-	solana config set --url https://api.mainnet-beta.solana.com
+	solana config set --url https://api.mainnet-beta.solana.com > /dev/null 2>&1
 	isSucesess
 	echo "Please send 0,5 SOL to this ($wallet) wallet!"
 	sleep 4
 	echo "Press Enter to countinue..."
 	read
 elif [[ $network == "d" ]]; then
-	solana config set --url https://api.devnet.solana.com
+	solana config set --url https://api.devnet.solana.com > /dev/null 2>&1
 	isSucesess
 	sleep 1
 	solana airdrop 4
@@ -194,9 +226,114 @@ fi
 #Create token
 
 echo ""
+echo "How many decimals do you want? (1-10):"
+read tokenDecimals
+
+echo ""
+echo "Select a token extensions from the following list, separated by commas: (0-8)"
+echo "Details in the solana docs: https://solana.com/developers/guides/token-extensions/getting-started"
+echo "  (0) No extensions, just a simple token"
+echo "  (1) Non transfarable"
+echo "  (2) Confidential transfer"
+echo "  (3) Transfer fees"
+echo "  (4) Transfer Hook"
+echo "  (5) Permanent Delegate"
+echo "  (6) Mint Close Authority"
+echo "  (7) Interest-Bearing"
+echo "  (8) Default Account State"
+read tokenExtensionId
+
+echo ""
+tokenExtensionParsed=""
+accountFlagsParsed=""
+recipientWallet=""
+isTokenTransfarable=true
+
+isOption1Used=false
+isOption2Used=false
+isOption3Used=false
+isOption4Used=false
+isOption5Used=false
+isOption6Used=false
+isOption7Used=false
+isOption8Used=false
+isOption9Used=false
+
+IFS=',' read -ra elements <<< "$tokenExtensionId"
+
+for element in "${elements[@]}"
+do
+	case "$element" in
+		0) 	tokenExtensionParsed=""
+			break;;
+
+		1)	if [[ $isOption1Used == false ]];then
+				isOption1Used=true				
+				isTokenTransfarable=false
+				tokenExtensionParsed="${tokenExtensionParsed} --enable-non-transferable"
+
+			fi;;
+
+		2) 	if [[ $isOption2Used == false ]];then
+				isOption2Used=true
+				echo "[2] Before be able to use your confidetial token you need read the docs! (https://spl.solana.com/confidential-token/quickstart)"
+				tokenExtensionParsed="${tokenExtensionParsed} --enable-confidential-transfers auto"
+			fi;;
+
+		3) 	if [[ $isOption3Used == false ]];then
+				isOption3Used=true
+				echo "[3] Enter transfer fee in percentage: (without the % sign)"
+				read transferFee
+				echo "[3] Enter the maximum transfer fee in tokens:"
+				read maxTransferFee
+				tokenExtensionParsed="${tokenExtensionParsed} --transfer-fee $(($transferFee * 100)) $maxTransferFee"
+			fi;;
+
+		4) 	if [[ $isOption4Used == false ]];then
+				isOption4Used=true
+				echo "[4] Enter the hook program id:"
+				read hookProgramId
+				tokenExtensionParsed="${tokenExtensionParsed} --transfer-hook $hookProgramId"
+			fi;;
+
+		5)	if [[ $isOption5Used == false ]];then
+				isOption5Used=true
+				tokenExtensionParsed="${tokenExtensionParsed} --enable-permanent-delegate"
+			fi;;
+
+		6) 	if [[ $isOption6Used == false ]];then
+				isOption6Used=true
+				tokenExtensionParsed="${tokenExtensionParsed} --enable-close"
+			fi;;
+
+		7)	if [[ $isOption7Used == false ]];then
+				isOption7Used=true
+				echo "[7] Enter the intrest rate in basis points:"
+				read intrestRate
+				tokenExtensionParsed="${tokenExtensionParsed} --interest-rate $intrestRate"
+			fi;;
+	
+		8)	if [[ $isOption8Used == false ]];then
+				isOption8Used=true
+				echo "[8] Select the default account state: (initialized/frozen)"
+				read defaultAccountState
+				tokenExtensionParsed="${tokenExtensionParsed} --default-account-state $defaultAccountState --enable-freeze"
+			fi;;
+
+		*) echo "Option $element is invalid, skipping it"
+	esac
+done
+
+echo "Enter the recipient wallet address: (empty for your own)"
+read recipientWallet
+if [[ $recipientWallet == "" ]]; then
+	recipientWallet=$wallet
+fi
+
+echo ""
 echo "Creating token..."
 
-tokenRaw=$( spl-token create-token )	#Create token
+tokenRaw=$( spl-token create-token -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb --enable-metadata --decimals $tokenDecimals $tokenExtensionParsed )	#Create token
 isSucesess
 
 token=$( echo $tokenRaw  | awk '{print $3}')
@@ -204,7 +341,7 @@ token=$( echo $tokenRaw  | awk '{print $3}')
 echo "Token ID: $token"
 
 #Create token account
-accountRaw=$( spl-token create-account $token )
+accountRaw=$( spl-token create-account -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb --owner $recipientWallet --fee-payer $HOME/.config/solana/id.json $token )
 isSucesess
 account=$( echo $accountRaw  | awk '{print $3}' )
 
@@ -215,15 +352,9 @@ echo "How many token do you want to mint? (0-18446744070):"
 
 read tokenAmount
 
-if [[ $tokenAmount > 18446744070 ]]; then
-	echo "The enterd amount is invalid!"
-	echo "Countinueing with 18000000000 tokens."
-	tokenAmount=18000000000
-fi	
-
 #Mint token
 echo "Minting token..."
-spl-token mint $token $(( $tokenAmount + 1 )) > /dev/null 2>&1
+spl-token mint $token $tokenAmount $account > /dev/null 2>&1
 isSucesess
 
 ##Metadata
@@ -259,34 +390,22 @@ OffChainMetadata="{ \"name\": \"$tokenName\", \"symbol\": \"$tokenSymbol\", \"de
 echo "$OffChainMetadata" >> $HOME/Solana-token-creator/off-chain_token_metadata.json
 
 echo ""
-echo "Uplad the 'off-chain_token_metadata.json' file($HOME/Solana-token-creator/) to Npoint.io (or Github)"
-echo "To get help follow step IV/5 in my repo (https://github.com/tm01013/how-to-make-your-own-crypto)"
+echo "Uplad the 'off-chain_token_metadata.json' file($HOME/Solana-token-creator/) to npoint.io (or Github)"
+echo "To get help follow step IV/4 in my repo (https://github.com/tm01013/how-to-make-your-own-crypto)"
 sleep 4
 
 echo "If you done paste here the link of the file:"
 read metadataLink
 
-OnChainMetadata="{ \"name\": \"$tokenName\", \"symbol\": \"$tokenSymbol\", \"uri\": \"$metadataLink\", \"seller_fee_basis_points\": 100, \"creators\": [ { \"address\": \"$wallet\", \"verified\": false, \"share\": 100 } ] }"
-
-echo "$OnChainMetadata" >> $HOME/Solana-token-creator/on-chain_token_metadata.json
-
-metaboss create metadata -a $token -m $HOME/Solana-token-creator/on-chain_token_metadata.json
+spl-token initialize-metadata $token "$tokenName" "$tokenSymbol" "$metadataLink" -v -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb > /dev/null
 isSucesess
 
 echo ""
 echo "Your token is done!!"
 
-echo ""
-echo "Enter your wallet address to transfer $tokenAmount$tokenSymbol to your wallet:"
-read destinationWallet
-
 if [[ $network == "d" ]]; then
 	solana transfer $destinationWallet 3 --allow-unfunded-recipient > /dev/null 2>&1
 fi 
-
-echo "Transferring tokens..."
-spl-token transfer $token $tokenAmount $destinationWallet --fund-recipient --allow-unfunded-recipient > /dev/null 2>&1
-isSucesess
 
 echo ""
 echo "Don't worry if you see your token as "Unrecognised Token" just wait 2-4 minutes to let the network process the changes"
@@ -308,9 +427,7 @@ if [[ $doDisableMint == "y" ]]; then
 	read doCountinue
 
 	if [[ $doCountinue == "y" ]]; then
-		spl-token authorize $token mint --disable
-		isSucesess
-		spl-token burn $account 1 > /dev/null 2>&1 # Remove the extra token generated becouse for some vierd reason solana doesn't allow sending all tokens
+		spl-token authorize -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $token mint --disable
 		isSucesess
 	fi
 fi
