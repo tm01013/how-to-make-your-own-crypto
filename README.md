@@ -13,6 +13,15 @@ To create cryptocurrency, you will need the following :
 > - Ubuntu 20.14 LTS
 > - Google cloud
 
+   ```
+      ┌─────────────────────────[DISCLAIMER]─────────────────────────┐
+      │ Only do crypto relaited stuff if it's legal in your country! │
+      │              Use this script only at your risk!              │ 
+      │             I DO NOT ASSUME ANY RESPONSIBILITY!              │
+      │ Note:         This is not a financial advice!                │
+      └──────────────────────────────────────────────────────────────┘
+   ```
+
 ### How does this work?
 
 We aren't creating a _" cryriptocurrency "_ (what??), but we are creating a _Token_. <br>
@@ -27,12 +36,12 @@ Read more about their differences [here](https://bitpay.com/blog/coins-vs-tokens
 
 ---
 
-# `Token creator`
+# `Token creator` - The easy way
 
 With '_solana-token-creator_' you can create a crypto within 2 minutes with just 1 command!
 
 > The token creator is not compatible with Windows! <br>
-> But if you are a windows user you can use WSL, Google cloud or a VM to use the script
+> But if you are a windows user you can use [WSL](https://learn.microsoft.com/en-us/windows/wsl/install), Google cloud or a VM to use the script
 
 1. Download this repo
    ```bash
@@ -49,17 +58,57 @@ With '_solana-token-creator_' you can create a crypto within 2 minutes with just
 
 4. Can you make your crypto within 2 minutes? :)
 
-### On-chain metadata updater mode
+<details>
 
-With this mode you can update the on-chain metadata of your token:
+  <summary><h3>Command line arguments</h3></summary>
 
-```bash
-bash solana-token-creator.sh --edit-metadata-mode
+  | command line option          | details |
+  | ---------------------------- | -------- |
+  | --advanced                   | gives you some extra options |
+  | -r --recipient               | recipient's wallet|
+  | -d --decimals                | token decimals [1-10]|
+  | -e --extensions              | extensions (separated by commas) <details><summary>Details</summary>- no extension -> n / 0 / noextension <br>- non transfarable -> nt / 1 / nontransfarable <br>- confidential transfer -> ct / 2 / confidentialtransfer<br>- transfer fee -> tf / 3 / transferfee<br>- transfer hook -> th / 4 / transferhook<br>- permanent delegate -> pd / 5 / permanentdelegate<br>- mint close -> mc / 6 / mintclose<br>- intrest bearing -> ib / 7 / intrestbearing<br>- default account state -> das / 8 / defaultaccountstate<br>- freeze -> f / 9 / freeze<br>- group config -> gc / 10 / groupconfig<br>- member config -> mc / 11 / memberconfig</details>|
+  | -th --transfer-hook          | transfer hook program id|
+  | -tf --transfer-fee           | transfer fee in percentage|
+  | -mf --max-fee 		         | max fee in tokens|
+  | -ir --intrest-rate           | intrest rate|
+  | -das --default-account-state | default account state, initialized(i) or frozen(f)|
+  | -gc --group-config 		      | group config (address / max amount of tokens that can belong to the newly initialized group)|
+  | -mc --member-config		      | member config (address / leave empty to initialize a new)|
+  | -na --name					      | token name|
+  | -s --symbol					   | token symbol|
+  | -ds --description			   | token description|
+  | -i --icon-url				      | icon url|
+  | -m --offchain-metadata	      | off-chain metadata url|
+  | -k --keypair					   | token keypair (location of the keypair file)|
+  | -a --amount					   | token amount (in tokens)|
+  | -n --network					   | network, mainnet(m) / devnet(d) / not change(n) / custom rpc url|
+
+   > Don't use empty strings in cli arguments, it will brake the script!
+
+</details>
+
+### On-chain updater mode
+
+With this mode you can update the on-chain metadata, extension settings and the authoritys of your token:
+
+``` bash
+bash solana-token-creator.sh --updater-mode
 ```
+
+### Cheat sheat
+
+Yes, this program has a builtin cheat sheat for the most used solana and spl commands!
+
+``` bash
+bash solana-token-creator.sh --cheat
+```
+   > If you have other suggestions what to put in the cheat sheat create an issue with the 'cheat sheat' label, or open a PR.
+
 
 ---
 
-## `Manual way`
+## `Manual way` - Learn things in the harder way
 
 ## I. Installation of tools
 
@@ -202,7 +251,7 @@ Without metadata the token will apear as “_Unknown Token_”, and it won't hav
    }
    ```
 4. Upload the metadata file to [npoint.io](https://www.npoint.io/) or GitHub, and get it's referance link
-   > On npoint.io don't forget to save! The referance link will be on the bottom of the page
+   > IMPORTANT! On npoint.io don't forget to save! The referance link will be on the bottom of the page!
 5. Add the on-chain metadata
    ```bash
    spl-token initialize-metadata <token> <token name (in quotation marks)> <token symbol (in quotation marks)> <off-chain metadata referance link> -v -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb
@@ -249,10 +298,3 @@ Without metadata the token will apear as “_Unknown Token_”, and it won't hav
 <br><br>
 
 © **_Márton Tatár 2024_**
-
-```
-DISCLAIMER!
-The creators of the repository DO NOT ASSUME ANY RESPONSIBILITY!
-Only do things mentioned in this reposatory at your own risk!
-This is not a financial advice, this reposatory was created for educational purposes only!
-```
