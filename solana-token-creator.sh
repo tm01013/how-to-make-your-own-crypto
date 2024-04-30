@@ -395,6 +395,7 @@ parseArguments()
     	case $key in
 			--advanced) shift;;
 			--quick) shift;;
+			--tools) shift;;
     	    -r|--recipient)
     	        recipient="$2"
 				shift
@@ -726,6 +727,11 @@ fi
 
 if [[ $1 == "--cheat" ]]; then
 	cheatSheat
+	exit
+fi
+
+if [[ $1 == "--tools" ]]; then
+	tools
 	exit
 fi
 

@@ -105,6 +105,12 @@ bash solana-token-creator.sh --cheat
 ```
    > If you have other suggestions what to put in the cheat sheat create an issue with the 'cheat sheat' label, or open a PR.
 
+### Tools
+
+With this feature you can do unregular solana stuff easyly!
+``` bash
+bash solana-token-creator.sh --tools
+```
 
 ---
 
