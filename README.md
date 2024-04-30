@@ -298,3 +298,9 @@ Without metadata the token will apear as “_Unknown Token_”, and it won't hav
 <br><br>
 
 © **_Márton Tatár 2024_**
+
+#### Contact info:
+
+- Github: @tm01013
+- Discord: @tm01013
+- Gmail: tmarci01013@gmail.com
