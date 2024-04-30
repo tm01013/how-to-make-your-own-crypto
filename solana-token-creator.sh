@@ -794,20 +794,20 @@ done
 #Set network
 setNetModeIsQuiet=true
 if [[ $network == "null" ]]; then
-setNetModeIsQuiet=false
-echo ""
-echo "[?] Witch network do you want to use Mainnet(m) / Devnet(d) / custom(rpc address) or not change(n):"
-read network
+	setNetModeIsQuiet=false
+	echo ""
+	echo "[?] Witch network do you want to use Mainnet(m) / Devnet(d) / custom(rpc address) or not change(n):"
+	read network
 fi
 
 if [[ $network == "m" ]]; then
 	solana config set --url https://api.mainnet-beta.solana.com #> /dev/null
 	isSucesess
 	if [[ $setNetModeIsQuiet == false ]]; then
-	echo "[!] Please send 0,5 SOL to this ($wallet) wallet!"
-	sleep 4
-	echo "[»] Press Enter to countinue..."
-	read
+		echo "[!] Please send 0,5 SOL to this ($wallet) wallet!"
+		sleep 4
+		echo "[»] Press Enter to countinue..."
+		read
 	fi
 fi
 if [[ $network == "d" ]]; then
@@ -825,9 +825,9 @@ fi
 
 #Create token
 if [[ $tokenDecimals == "null" ]];then
-echo ""
-echo "[?] How many decimals do you want? (1-10):"
-read tokenDecimals
+	echo ""
+	echo "[?] How many decimals do you want? (1-10):"
+	read tokenDecimals
 fi
 
 if [[ $tokenExtensionId == "null" ]]; then
@@ -896,12 +896,12 @@ do
 		3) 	if [[ $isOption3Used == false ]];then
 				isOption3Used=true
 				if [[ $transferFee == "null" ]];then
-				echo "[3] Enter transfer fee in percentage: (without the % sign)"
-				read transferFee
+					echo "[3] Enter transfer fee in percentage: (without the % sign)"
+					read transferFee
 				fi
 				if [[ $maxFee == "null" ]]; then
-				echo "[3] Enter the maximum transfer fee in tokens:"
-				read maxTransferFee
+					echo "[3] Enter the maximum transfer fee in tokens:"
+					read maxTransferFee
 				fi
 				tokenExtensionsParsed="${tokenExtensionsParsed} --transfer-fee $(($transferFee * 100)) $( bc <<< \"$maxTransferFee*10^$tokenDecimals\")"
 			fi;;
@@ -909,8 +909,8 @@ do
 		4) 	if [[ $isOption4Used == false ]];then
 				isOption4Used=true
 				if [[ $hookProgramId == "null" ]]; then
-				echo "[4] Enter the hook program id:"
-				read hookProgramId
+					echo "[4] Enter the hook program id:"
+					read hookProgramId
 				fi
 				tokenExtensionsParsed="${tokenExtensionsParsed} --transfer-hook $hookProgramId"
 			fi;;
@@ -928,8 +928,8 @@ do
 		7)	if [[ $isOption7Used == false ]];then
 				isOption7Used=true
 				if [[ $intrestRate == "null" ]]; then
-				echo "[7] Enter the intrest rate in percentage (without the % sign):"
-				read intrestRate
+					echo "[7] Enter the intrest rate in percentage (without the % sign):"
+					read intrestRate
 				fi
 				tokenExtensionsParsed="${tokenExtensionsParsed} --interest-rate $($intrestRate * 100)"
 			fi;;
@@ -937,11 +937,11 @@ do
 		8)	if [[ $isOption8Used == false ]];then
 				isOption8Used=true
 				if [[ $defaultAccountState == "null" ]]; then
-				echo "[8] Select the default account state: initialized(i) frozen(f):"
-				read defaultAccountState
-				if [[ $defaultAccountState == "i" ]]; then defaultAccountState="initialized"
-				elif [[ $defaultAccountState == "f" ]]; then defaultAccountState="frozen"
-				fi
+					echo "[8] Select the default account state: initialized(i) frozen(f):"
+					read defaultAccountState
+					if [[ $defaultAccountState == "i" ]]; then defaultAccountState="initialized"
+					elif [[ $defaultAccountState == "f" ]]; then defaultAccountState="frozen"
+					fi
 				fi
 				tokenExtensionsParsed="${tokenExtensionsParsed} --default-account-state $defaultAccountState --enable-freeze"
 			fi;;
@@ -956,8 +956,8 @@ do
 		10) if [[ $isOption10Used == false ]]; then
 				isOption10Used=true
 				if [[ $groupConfigAddr == "null" ]]; then
-				echo "[10] Specify address that stores token group configurations or leave empty to initialize a new group on the mint:"
-				read groupConfigAddr
+					echo "[10] Specify address that stores token group configurations or leave empty to initialize a new group on the mint:"
+					read groupConfigAddr
 				fi
 				if [[ $groupConfigAddr != "" ]]; then
 					tokenExtensionsParsed="${tokenExtensionsParsed} --group-address $groupConfigAddr"
@@ -970,8 +970,8 @@ do
 		11) if [[ $isOption11Used == false ]]; then
 				isOption11Used=true
 				if [[ $memberConfigAddr == "null" ]]; then
-				echo "[11] Specify address that stores token member configurations or leave empty to initialize a new member on the mint:"
-				read memberConfigAddr
+					echo "[11] Specify address that stores token member configurations or leave empty to initialize a new member on the mint:"
+					read memberConfigAddr
 				fi
 				if [[ $memberConfigAddr != "" ]]; then
 					tokenExtensionsParsed="${tokenExtensionsParsed} --member-address $memberConfigAddr"
@@ -986,11 +986,11 @@ do
 done
 
 if [[ $recipientWallet == "null" ]]; then
-echo "[?] Enter the recipient wallet address: (empty for your own)"
-read recipientWallet
-if [[ $recipientWallet == "" ]]; then
-	recipientWallet=$wallet
-fi
+	echo "[?] Enter the recipient wallet address: (empty for your own)"
+	read recipientWallet
+	if [[ $recipientWallet == "" ]]; then
+		recipientWallet=$wallet
+	fi
 fi
 
 if [[ $keypair == "null" ]]; then
@@ -1014,8 +1014,8 @@ echo "Token ID: $token"
 
 if [[ isGroupNeedToBeInitialized == true ]]; then
 	if [[ $maxInGroup == "null" ]]; then
-	echo "[Group config] Enter the max amount of token mints that can belong to this group:"
-	read maxInGroup
+		echo "[Group config] Enter the max amount of token mints that can belong to this group:"
+		read maxInGroup
 	fi
 	spl-token initialize-group $token $maxInGroup --update-authority $wallet > /dev/null
 	isSucesess
@@ -1037,9 +1037,9 @@ maxAmountInTokens=$( bc <<< $maxAmountInAbsolute/10^$tokenDecimals )
 isSucesess
 
 if [[ $tokenAmount == "null" ]]; then
-echo ""
-echo "[?] How many token do you want to mint? (1-$maxAmountInTokens):"
-read tokenAmount
+	echo ""
+	echo "[?] How many token do you want to mint? (1-$maxAmountInTokens):"
+	read tokenAmount
 fi
 
 if [[ $(bc <<< "$tokenAmount>$maxAmountInTokens") == "1" ]]; then
@@ -1078,27 +1078,27 @@ else
 fi
 
 if [[ $tokenName == "null" ]]; then
-echo ""
-echo "[?] How to name your token?:"
-read tokenName
+	echo ""
+	echo "[?] How to name your token?:"
+	read tokenName
 fi
 
 if [[ $tokenSymbol == "null" ]]; then
-echo "[?] What symbol do you want?:"
-read tokenSymbol
+	echo "[?] What symbol do you want?:"
+	read tokenSymbol
 fi
 
 if [[ $tokenDescription == "null" ]]; then
-echo "[?] Enter a description for your token:"
-read tokenDescription
+	echo "[?] Enter a description for your token:"
+	read tokenDescription
 fi
 
 if [[ $iconLink == "null" ]]; then
-echo ""
-echo "[!] Uplad the token icon to GitHub or any other service"
-sleep 4
-echo "[?] If you done paste here the link of the token icon:"
-read iconLink
+	echo ""
+	echo "[!] Uplad the token icon to GitHub or any other service"
+	sleep 4
+	echo "[?] If you done paste here the link of the token icon:"
+	read iconLink
 fi
 
 OffChainMetadata="{ \"name\": \"$tokenName\", \"symbol\": \"$tokenSymbol\", \"description\": \"$tokenDescription\", \"image\": \"$iconLink\", \"attributes\": [], \"properties\": { \"files\": [ { \"uri\": \"$iconLink\", \"type\": \"image/png\" } ] } }"
@@ -1106,13 +1106,13 @@ OffChainMetadata="{ \"name\": \"$tokenName\", \"symbol\": \"$tokenSymbol\", \"de
 echo "$OffChainMetadata" >> $HOME/Solana-token-creator/off-chain_token_metadata.json
 
 if [[ $metadataLink == "null" ]]; then
-echo ""
-echo "[?] Uplad the 'off-chain_token_metadata.json' file($HOME/Solana-token-creator/) to npoint.io (or Github)"
-echo "    On npoint.io don't forget to save. Use the referance link from the bottom of the page!"
-sleep 4
+	echo ""
+	echo "[!] Uplad the 'off-chain_token_metadata.json' file($HOME/Solana-token-creator/) to npoint.io (or Github)"
+	echo "    On npoint.io don't forget to save. Use the referance link from the bottom of the page!"
+	sleep 4
 
-echo "[?] If you done paste here the link of the file:"
-read metadataLink
+	echo "[?] If you done paste here the link of the file:"
+	read metadataLink
 fi
 
 spl-token initialize-metadata $token "$tokenName" "$tokenSymbol" "$metadataLink" -v -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb > /dev/null
@@ -1161,5 +1161,10 @@ fi
 echo ""
 echo "───────────────────────────────────────────────────────────────────────────────────────────"
 echo "[>] You're done!! 🎉 Congratulations you've created a crypo!! 🎉"
+if [[ $network == "m" ]]; then
+	echo "[>] View on solscan: https://solscan.io/token/$token"
+else
+	echo "[>] View on solscan: https://solscan.io/token/$token?cluster=devnet"
+fi
 echo ""
 echo "[>] If you found my script useful don't forget to leave a star ✨ on my repo! Thank you! 😍"
