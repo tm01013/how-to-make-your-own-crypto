@@ -237,7 +237,7 @@ Without metadata the token will apear as “_Unknown Token_”, and it won't hav
 <br>
 
 1. Chose a name (Example Token), a symbol (ET) and a description (Best token!)
-2. Upload your icon (in png format) to GitHub ar any other site and get it's raw link (ending with .png)
+2. Upload your icon (in png format) to IPFS ([pinata](https://pinata.cloud/)) ar any other site and get it's raw link (ending with .png)
 3. Create a off-chain json metadata file like this:
    ```json
    {
@@ -256,8 +256,7 @@ Without metadata the token will apear as “_Unknown Token_”, and it won't hav
      }
    }
    ```
-4. Upload the metadata file to [npoint.io](https://www.npoint.io/) or GitHub, and get it's referance link
-   > IMPORTANT! On npoint.io don't forget to save! The referance link will be on the bottom of the page!
+4. Upload the metadata file to IPFS ([pinata](https://pinata.cloud/)), and get it's referance link
 5. Add the on-chain metadata
    ```bash
    spl-token initialize-metadata <token> <token name (in quotation marks)> <token symbol (in quotation marks)> <off-chain metadata referance link> -v -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb
@@ -304,9 +303,3 @@ Without metadata the token will apear as “_Unknown Token_”, and it won't hav
 <br><br>
 
 © **_Márton Tatár 2024_**
-
-#### Contact info:
-
-- Github: @tm01013
-- Discord: @tm01013
-- Gmail: tmarci01013@gmail.com

@@ -685,7 +685,7 @@ if [[ $isAllInstalled == "n" ]]; then
 			echo ""
 			echo "Installing solana cli..."
 			echo ""
-			sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
+			sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
 			isSucesess
 			PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
 			sleep 1
@@ -1000,12 +1000,8 @@ if [[ $recipientWallet == "null" ]]; then
 fi
 
 if [[ $keypair == "null" ]]; then
-	if [[ $isAdvanced == true ]]; then
-		echo "[?] Enter the path for the token's keypair or leave empty for random:"
-		read keypair
-	else
-		keypair=""
-	fi
+	echo "[?] Enter the path for the token's keypair or leave empty for random:"
+	read keypair
 fi
 
 echo ""
@@ -1101,7 +1097,7 @@ fi
 
 if [[ $iconLink == "null" ]]; then
 	echo ""
-	echo "[!] Uplad the token icon to GitHub or any other service"
+	echo "[!] Uplad the token icon to IPFS (pinata) or any other service"
 	sleep 4
 	echo "[?] If you done paste here the link of the token icon:"
 	read iconLink
@@ -1113,8 +1109,7 @@ echo "$OffChainMetadata" >> $HOME/Solana-token-creator/off-chain_token_metadata.
 
 if [[ $metadataLink == "null" ]]; then
 	echo ""
-	echo "[!] Uplad the 'off-chain_token_metadata.json' file($HOME/Solana-token-creator/) to npoint.io (or Github)"
-	echo "    On npoint.io don't forget to save. Use the referance link from the bottom of the page!"
+	echo "[!] Uplad the 'off-chain_token_metadata.json' file($HOME/Solana-token-creator/) to IPFS (pinata)"
 	sleep 4
 
 	echo "[?] If you done paste here the link of the file:"
