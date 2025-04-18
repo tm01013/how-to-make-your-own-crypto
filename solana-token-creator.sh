@@ -125,7 +125,7 @@ updaterMode()
 			read percentage
 			echo "Enter the max fee in tokens: (intager grather than 0)"
 			read maxFee
-			spl-token set-transfer-fee -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr $(( $percentage * 100 )) $( bc <<< \"$maxFee*10^$tokenDecimals\");
+			spl-token set-transfer-fee -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr $(( $percentage * 100 )) $( bc <<< \"$maxFee*10^$tokenDecimals\");;
 
 		8)	echo "Enter the new interest rate in percentage (without the % sign):"
 			read percentage
