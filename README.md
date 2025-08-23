@@ -2,16 +2,14 @@
 
 To create cryptocurrency, you will need the following :
 
-- A computer or even a tablet
+- A computer
 - Basic skills for using the Terminal.
-- Basic knowledge to write json code
 - Internet connection
 
 > It has been tested on:
 >
 > - Mac os Big Sur
 > - Ubuntu 20.14 LTS
-> - Google cloud
 
    ```
       ┌─────────────────────────[DISCLAIMER]─────────────────────────┐
@@ -114,14 +112,14 @@ bash solana-token-creator.sh --tools
 
 ---
 
-## `Manual way` - Learn things in the harder way
+## `Manual way` - Have Fun
 
-## I. Installation of tools
+## I. Install solana cli
 
-**Mac (Terminal), Linux (Terminal), Google Cloud console :**
+**Mac (Terminal), Linux (Terminal) :**
 
 ```bash
-sh -c "$( curl -sSfL https://release.solana.com/stable/install)"
+sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
 ```
 
 Then restart Terminal to work everithing fine and enter the following command:
@@ -132,13 +130,7 @@ PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
 
 **Windows (cmd):**
 
-```bash
-cmd /c "curl https://release.solana.com/stable/solana-install-init-x86_64-pc-windows-msvc.exe --output C:\solana-install-tmp\solana-install-init.exe --create-dirs"
-
-C:\solana-install-tmp\solana-install-init.exe v1.16.9
-```
-
-> Then restart cmd to work everithin fine
+> Refear to the [offical documentation](https://solana.com/docs/intro/installation) for details
 
 ## II. Token creation
 
@@ -151,7 +143,7 @@ C:\solana-install-tmp\solana-install-init.exe v1.16.9
    > **Warning this will remove your existing wallet!!** <br>
    > This creates a new Solana key pair that will function as a file system wallet.<br>
    > Before generating the key pair, it will ask for a _BIP39 Passphrase_, which serves as extra protection, but we don't need it .<br>
-   > Save the public key, we need it later!
+   > Save the public key, we'll need it later!
 
 2. Check Solana configuration
 
@@ -167,7 +159,7 @@ C:\solana-install-tmp\solana-install-init.exe v1.16.9
    - **_Devnet_**: _not real_ money, transactions have _simulated_ fees , RPC: https://api.devnet.solana.com
    - **_Testnet_**: similar to devnet , but its purpose is to test the solana network, RPC: https://api.testnet.solana.com <br>
 
-3. If you want to create a token for free , you can "enter" the developer network with this command.
+3. If you want to create a token for free , you can switch to the developer network with this command.
    ```bash
    solana config set --url https://api.devnet.solana.com
    ```
@@ -180,40 +172,41 @@ C:\solana-install-tmp\solana-install-init.exe v1.16.9
    > If you are not on the developer network, you have to transfer some SOL from your own account here.
 
    > Salana is needed because you have to pay for token creation + subsequent transactions<br>
-   > These 4 SOLs are enough for more than 800000 transfers on the **dev network**.
+   > In the real world 4 SOL is a _huge_ amount, on devnet we don't care about big amounts :)
 
-5. Create a token
+5. Create the token
 
    ```bash
-   spl-token create-token -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb --enable-metadata <optional flags>
+   spl-token create-token --program-2022 --enable-metadata <optional flags>
    ```
 
    When creatin a token you can configure the following things:
 
    1. `--decimals <DECIMALS>` Number of base 10 digits to the right of the decimal place [default: 9], minimum is 1 (for fungible tokens)
-   2. `--mint-authority <ADDRESS>` Specify the mint authority address. Default is the client's address.
-   3. Token Extensions, see the my [Token Extensions guide](Token_Extensions.md) and the [offical docs](https://spl.solana.com/token-2022/extensions)
+   2. Token Extensions, here we wont work with them. For details see the [offical docs](https://www.solana-program.com/docs/token-2022/extensions).
       <br><br>
 
    > Save the token address, we need it later! <br><br>
    > You can create several different tokens with one wallet.
-   > So if you are not satisfied with one token, you have to repeat the process from this step :)
+   > So if you are not satisfied with one token, you have to repeat the process from this step on :)
 
 6. Creating an account for our token
 
    ```bash
-   spl-token create-account -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb <token>
+   spl-token create-account --program-2022 <token>
    ```
 
    > This will not create a new wallet but an _account_ within the wallet for the token <br>
-   > For all tokens you need an account to store them, and these accounts are inside the wallet. <br>
-   > There is a fee to create an account (less than 0.00001 SOL) <br>
+   > Every token needs it's own account, and these accounts are going to be inside your wallet. <br>
 
-7. You can generate a certain amount of token with this command
+7. Mint the token
+
+   Now let's actually _'create'_ the tokens themselves:
 
    ```bash
    spl-token mint <token> <amount>
    ```
+   > Before we had our token _'existing'_ ont he blockchain but we had none actually created of it.
 
    > Only the mint authority (the wallet that created the token) can mint tokens
 
@@ -223,7 +216,7 @@ C:\solana-install-tmp\solana-install-init.exe v1.16.9
    ```
 9. Use this command to disable the generation of additional tokens
    ```bash
-   spl-token authorize -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb  <token> mint --disable
+   spl-token authorize --program-2022  <token> mint --disable
    ```
    > <picture>
    > <source media ="(prefers-color-scheme:light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/danger.svg">
@@ -231,12 +224,12 @@ C:\solana-install-tmp\solana-install-init.exe v1.16.9
    > </picture>
    > Do not perform this step until you have added metadata to your token!!
 
-## IV. Add metadata to the token
+## IV. Add metadata to the token *(optional)*
 
 Without metadata the token will apear as “_Unknown Token_”, and it won't have an icon and symbol (eg:BTC).
 <br>
 
-1. Chose a name (Example Token), a symbol (ET) and a description (Best token!)
+1. Chose a name (_"Example Token"_), a symbol (_"ET"_) and a description (_"Best token!"_) _[optional]_
 2. Upload your icon (in png format) to IPFS ([pinata](https://pinata.cloud/)) ar any other site and get it's raw link (ending with .png)
 3. Create a off-chain json metadata file like this:
    ```json
@@ -259,19 +252,17 @@ Without metadata the token will apear as “_Unknown Token_”, and it won't hav
 4. Upload the metadata file to IPFS ([pinata](https://pinata.cloud/)), and get it's referance link
 5. Add the on-chain metadata
    ```bash
-   spl-token initialize-metadata <token> <token name (in quotation marks)> <token symbol (in quotation marks)> <off-chain metadata referance link> -v -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb
+   spl-token initialize-metadata <token> <token name (in quotation marks)> <token symbol (in quotation marks)> <off-chain metadata referance link> -v --program-2022
    ```
 6. Check the metadata on [Solscan](https://solscan.io/), [Solscan for devnet](https://solscan.io/?cluster=devnet)
 
    > Search with the token's address
 
-   Don't worry if you see your token as _"Unrecognised Token"_ just wait 2-4 minutes to let the network process the changes
-
 7. Your token is **_DONE_** :)
 
-## V. Use the Token
+## V. Use your Token in wallets
 
-1. Create a wallet suitable for storing Solana, for example, in the Phantom app (Android , IOS , Chrome extension).
+1. Download a wallet suitable for storing Solana, for example, in the Phantom app (Android , IOS , Chrome extension).
 2. If you created the token on the developer network, you must switch the network from "Mainnet" to "Devnet" in the wallet app.
 
    - Phantom : "Settings" => "Developer settings" => turn "Testnet mode" on => select devnet
@@ -280,25 +271,21 @@ Without metadata the token will apear as “_Unknown Token_”, and it won't hav
 
    - **Not All applications are compatible with the developer network!**
 
-3. Send the test SOL retrieved in the "Create Token " section to your new wallet ( you will need it for the transfers 1SOl = >200000 transfers).
+3. Send some SOL to your new wallet.
 
-   > If you are not using the test network, you have to transfer SOL to your new account in another way.
+   > Don't forget that you will always need SOL for transactions (if you ran out on the devnet, just airdrop more)
 
    ```bash
    solana transfer <wallet Solana address> <amount (some must remain to fund the transaction)>
    ```
 
-   > You can only transfer to SOL with this command .
+   > If you are not using the test network, you have to transfer SOL to your new account in another way.
 
 4. Send the completed tokens to your wallet and at the same time create an account for the token there (`--fund-recipient`).
 
    ```bash
    spl-token transfer <token> <amount> <address of the destination wallet> --fund-recipient
    ```
-
-   Don't worry if you see your token as _"Unrecognised Token"_ just wait 2-4 minutes to let the network process the changes
-
-   > Don't forget that you will always need SOL for transactions (if you use the test network and run out, complete steps II/4 and V/3)
 
 <br><br>
 

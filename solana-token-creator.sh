@@ -58,7 +58,7 @@ updaterMode()
 	echo "Enter the token's mint address:"
 	read tokenMintAddr
 
-	echo "Select what you want to update from the following list: (1-19)"
+	echo "Select what you want to update from the following list: "
 	echo " Matadata:"
 	echo "  (1) Token name"
 	echo "  (2) Token symbol"
@@ -66,21 +66,23 @@ updaterMode()
 	echo "  (4) Add or edit a custom metadata field"
 	echo "  (5) Remove a custom metadata field"
 	echo " Extension settings:"
-	echo "  (6) Transfer hook program id"
-	echo "  (7) Transfer fee"
-	echo "  (8) Intrest rate"
-	echo "  (9) Default account state"
-	echo "  (10) Confidential trnasfer approve policy"
-	echo "  (11) Group address"
-	echo "  (12) Member address"
+	echo "  (10) Transfer hook program id"
+	echo "  (11) Transfer fee"
+	echo "  (12) UI amount multiplier"
+	echo "  (13) Intrest rate"
+	echo "  (14) Default account state"
+	echo "  (15) Confidential trnasfer approve policy"
+	echo "  (16) Group address"
+	echo "  (17) Member address"
 	echo " Authoritys:"
-	echo "  (13) Disable mint"
-	echo "  (14) Mint authority"
-	echo "  (15) Freeze authority"
-	echo "  (16) Transfer fee withraw authority"
-	echo "  (17) Mint close authority"
-	echo "  (18) Permanent delegate"
-	echo "  (19) Intrest rate update authority"
+	echo "  (20) Disable mint"
+	echo "  (21) Mint authority"
+	echo "  (22) Permanent delegate"
+	echo "  (23) Pause authority"
+	echo "  (24) Freeze authority"
+	echo "  (25) Transfer fee withraw authority"
+	echo "  (26) Mint close authority"
+	echo "  (27) Intrest rate update authority"
 	read option
 
 	case $option in
@@ -116,22 +118,25 @@ updaterMode()
 			read field
 			spl-token update-metadata --program-2022  $tokenMintAddr "$field" --remove
 			exit;;
+
 		# Extension settings:
-		6)	echo "Enter the new transfer hook address:"
+		10)	echo "Enter the new transfer hook address:"
 			read newHook
 			spl-token set-transfer-hook --program-2022 $tokenMintAddr $newHook;;
 
-		7)	echo "Enter the new fee in percentage (without the % sign):"
+		11)	echo "Enter the new fee in percentage (without the % sign):"
 			read percentage
 			echo "Enter the max fee in tokens: (intager grather than 0)"
 			read maxFee
 			spl-token set-transfer-fee --program-2022 $tokenMintAddr $(( $percentage * 100 )) $( bc <<< \"$maxFee*10^$tokenDecimals\");;
-
-		8)	echo "Enter the new interest rate in percentage (without the % sign):"
+		12)	echo "Enter the UI amount multiplier:"
+			read multiplier
+			spl-token update-ui-amount-multiplier --program-2022 $tokenMintAddr $multiplier;;
+		13)	echo "Enter the new interest rate in percentage (without the % sign):"
 			read percentage
 			spl-token set-interest-rate --program-2022 $tokenMintAddr $(( $percentage * 100 ));;
 
-		9)	echo "Enter the new default account state initialized(i) or frozen(f) : (i/f)"
+		14)	echo "Enter the new default account state initialized(i) or frozen(f) : (i/f)"
 			read newPolicy
 			if [[ $newPolicy == "i" ]];then
 				spl-token update-default-account-state --program-2022 $tokenMintAddr initialized
@@ -142,7 +147,7 @@ updaterMode()
 				echo "[Error] The only possible choices are 'i' and 'f'!"
 			fi;;
 
-		10)	echo "Enter the new approve policy manual(m) or auto(a) : (m/a)"
+		15)	echo "Enter the new approve policy manual(m) or auto(a) : (m/a)"
 			read newPolicy
 			if [[ $newPolicy == "m" ]];then
 				spl-token update-confidential-transfer-settings --program-2022 --approve-policy manual $tokenMintAddr
@@ -152,16 +157,16 @@ updaterMode()
 				echo "[Error] The only possible choices are 'a' and 'm'!"
 			fi;;
 
-		11)	echo "Enter the new group address:"
+		16)	echo "Enter the new group address:"
 			read newGroup
 			spl-token update-group-address --program-2022 $tokenMintAddr $newGroup;;
 
-		12)	echo "Enter the new member address:"
+		17)	echo "Enter the new member address:"
 			read newMember
 			spl-token update-member-address --program-2022 $tokenMintAddr $newMember;;
 
 		#Authoritys:
-		13) echo "┌─────────────────────────!!WARNING!!─────────────────────────┐"
+		20) echo "┌─────────────────────────!!WARNING!!─────────────────────────┐"
 			echo "│ If you disable mint you cannot get any more of your token!  │"
 			echo "│ This operation cannot be undone!                            │"
 			echo "│ Please check everithing is correct before countinue!        │"
@@ -172,11 +177,17 @@ updaterMode()
 				spl-token authorize --program-2022 $tokenMintAddr mint --disable
 			fi;;
 
-		14)	echo "Enter the new mint authority address:"
+		21)	echo "Enter the new mint authority address:"
 			read newAuthority
 			spl-token authorize --program-2022 $tokenMintAddr mint $newAuthority;;
 
-		15)	echo "Enter the new freeze authority address or 'disable' to disable freezing:"
+		22)	echo "Enter the new permanent delegate authority address:"
+			read newAuthority
+			spl-token authorize --program-2022 $tokenMintAddr permanent-delegate $newAuthority;;
+		23)	echo "Enter the new Pause authority address:"
+			read newAuthority
+			spl-token authorize --program-2022 $tokenMintAddr pause $newAuthority;;
+		24)	echo "Enter the new freeze authority address or 'disable' to disable freezing:"
 			read newAuthority
 			if [[ $newAuthority != "disable" ]]; then
 				spl-token authorize --program-2022 $tokenMintAddr freeze $newAuthority
@@ -194,11 +205,11 @@ updaterMode()
 			fi;;
 
 		
-		16)	echo "Enter the new transfer fee withraw authority address:"
+		25)	echo "Enter the new transfer fee withraw authority address:"
 			read newAuthority
 			spl-token authorize --program-2022 $tokenMintAddr withheld-withdraw $newAuthority;;
 
-		17)	echo "Enter the new mint close authority address or 'disable' to disable closeing the mint:"
+		26)	echo "Enter the new mint close authority address or 'disable' to disable closeing the mint:"
 			read newAuthority
 			if [[ $newAuthority != "disable" ]]; then
 				spl-token authorize --program-2022 $tokenMintAddr close-mint $newAuthority
@@ -211,11 +222,8 @@ updaterMode()
 				fi
 			fi;;
 
-		18)	echo "Enter the new permanent delegate authority address:"
-			read newAuthority
-			spl-token authorize --program-2022 $tokenMintAddr permanent-delegate $newAuthority;;
 
-		19)	echo "Enter the new intrest rate update authority address:"
+		27)	echo "Enter the new intrest rate update authority address:"
 			read newAuthority
 			spl-token authorize --program-2022 $tokenMintAddr interest-rate $newAuthority;;
 		
@@ -604,11 +612,6 @@ parseArguments()
 	echo "\"$network\"|\"$tokenName\"|\"$tokenSymbol\"|\"$tokenDescription\"|\"$tokenIcon\"|\"$OffChainMetadata\"|\"$recipient\"|\"$decimals\"|\"$tokenKeypair\"|\"$amount\"|\"$extensions\"|\"$transferHook\"|\"$transferFee\"|\"$maxFee\"|\"$intrestRate\"|\"$defaultAccountState\"|\"$groupConfigAddr\"|\"$maxTokensInGroup\"|\"$memberConfigAddr\"|\"$doCreateNewMemberConfig\""
 }
 
-# quick()
-# {
-# 	# Quick mode is currently in development
-# }
-
 OS=""
 # Check if os is supported
 case "$OSTYPE" in
@@ -678,7 +681,6 @@ if [[ $isAllInstalled == "n" ]]; then
 	if [[ $doInstall == "y" ]]; then
 
 		echo "Downloading tools this will take some time..."
-		echo ""
 		sleep 4
 
 		if [[ $isSolanaInstalled == "n" ]]; then
@@ -714,8 +716,8 @@ if [[ $isAllInstalled == "n" ]]; then
 
 		echo ""
 		echo "Tools sucesessfully downloaded"
-		echo "Please restart your Terminal (close/reopen)!!"
-		echo "Then use the same command as before to countinue"
+		echo "Add this line to your .bashrc file: export PATH=\"\$HOME/.local/share/solana/install/active_release/bin:\$PATH\""
+		echo "Than close and reopen your terminal and start again!"
 		exit
 	fi
 fi
