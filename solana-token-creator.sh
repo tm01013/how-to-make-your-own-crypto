@@ -88,55 +88,55 @@ updaterMode()
 		# metadata
 		1) 	echo "Enter the new name for the token:"
 			read newName
-			spl-token update-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr "name" "$newName" > /dev/null
+			spl-token update-metadata --program-2022 $tokenMintAddr "name" "$newName" > /dev/null
 			echo "This only changed the ON-CHAIN metadata!"
 			echo "To make the token's name displayed as \"$newName\" you also need to change or create a new off-chain metadata"
 			exit;;
 
 		2)	echo "Enter the new symbol for the token:"
 			read newSymbol
-			spl-token update-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr "symbol" "$newSymbol" > /dev/null
+			spl-token update-metadata --program-2022 $tokenMintAddr "symbol" "$newSymbol" > /dev/null
 			echo "This only changed the ON-CHAIN metadata!"
 			echo "To make the token's symbol displayed as \"$newSymbol\" you also need to change or create a new off-chain metadata"
 			exit;;
 
 		3)	echo "Enter the new off-chain metadata uri for the token:"
 			read newUri
-			spl-token update-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr "uri" $newUri > /dev/null
+			spl-token update-metadata --program-2022 $tokenMintAddr "uri" $newUri > /dev/null
 			exit;;
 
 		4)	echo "Enter the field's name:"
 			read field
 			echo "Enter the field's data:"
 			read fieldData
-			spl-token update-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr "$field" "$fieldData"
+			spl-token update-metadata --program-2022 $tokenMintAddr "$field" "$fieldData"
 			exit;;
 		
 		5)	echo "Enter the field's name:"
 			read field
-			spl-token update-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb  $tokenMintAddr "$field" --remove
+			spl-token update-metadata --program-2022  $tokenMintAddr "$field" --remove
 			exit;;
 		# Extension settings:
 		6)	echo "Enter the new transfer hook address:"
 			read newHook
-			spl-token set-transfer-hook -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr $newHook;;
+			spl-token set-transfer-hook --program-2022 $tokenMintAddr $newHook;;
 
 		7)	echo "Enter the new fee in percentage (without the % sign):"
 			read percentage
 			echo "Enter the max fee in tokens: (intager grather than 0)"
 			read maxFee
-			spl-token set-transfer-fee -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr $(( $percentage * 100 )) $( bc <<< \"$maxFee*10^$tokenDecimals\");;
+			spl-token set-transfer-fee --program-2022 $tokenMintAddr $(( $percentage * 100 )) $( bc <<< \"$maxFee*10^$tokenDecimals\");;
 
 		8)	echo "Enter the new interest rate in percentage (without the % sign):"
 			read percentage
-			spl-token set-interest-rate -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr $(( $percentage * 100 ));;
+			spl-token set-interest-rate --program-2022 $tokenMintAddr $(( $percentage * 100 ));;
 
 		9)	echo "Enter the new default account state initialized(i) or frozen(f) : (i/f)"
 			read newPolicy
 			if [[ $newPolicy == "i" ]];then
-				spl-token update-default-account-state -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr initialized
+				spl-token update-default-account-state --program-2022 $tokenMintAddr initialized
 			elif [[ $newPolicy == "f" ]]; then
-				spl-token update-default-account-state -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr frozen
+				spl-token update-default-account-state --program-2022 $tokenMintAddr frozen
 			fi
 			if [[ $newPolicy != "i" && $newPolicy != "f" ]]; then
 				echo "[Error] The only possible choices are 'i' and 'f'!"
@@ -145,20 +145,20 @@ updaterMode()
 		10)	echo "Enter the new approve policy manual(m) or auto(a) : (m/a)"
 			read newPolicy
 			if [[ $newPolicy == "m" ]];then
-				spl-token update-confidential-transfer-settings -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb --approve-policy manual $tokenMintAddr
+				spl-token update-confidential-transfer-settings --program-2022 --approve-policy manual $tokenMintAddr
 			elif [[ $newPolicy == "a" ]]; then
-				spl-token update-confidential-transfer-settings -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb --approve-policy auto $tokenMintAddr
+				spl-token update-confidential-transfer-settings --program-2022 --approve-policy auto $tokenMintAddr
 			else
 				echo "[Error] The only possible choices are 'a' and 'm'!"
 			fi;;
 
 		11)	echo "Enter the new group address:"
 			read newGroup
-			spl-token update-group-address -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr $newGroup;;
+			spl-token update-group-address --program-2022 $tokenMintAddr $newGroup;;
 
 		12)	echo "Enter the new member address:"
 			read newMember
-			spl-token update-member-address -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr $newMember;;
+			spl-token update-member-address --program-2022 $tokenMintAddr $newMember;;
 
 		#Authoritys:
 		13) echo "┌─────────────────────────!!WARNING!!─────────────────────────┐"
@@ -169,17 +169,17 @@ updaterMode()
 			echo "Do you want to countinue? (y/n):"
 			read countinue
 			if [[ $continue == "y" ]];then
-				spl-token authorize -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr mint --disable
+				spl-token authorize --program-2022 $tokenMintAddr mint --disable
 			fi;;
 
 		14)	echo "Enter the new mint authority address:"
 			read newAuthority
-			spl-token authorize -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr mint $newAuthority;;
+			spl-token authorize --program-2022 $tokenMintAddr mint $newAuthority;;
 
 		15)	echo "Enter the new freeze authority address or 'disable' to disable freezing:"
 			read newAuthority
 			if [[ $newAuthority != "disable" ]]; then
-				spl-token authorize -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr freeze $newAuthority
+				spl-token authorize --program-2022 $tokenMintAddr freeze $newAuthority
 			else
 			echo "┌───────────────────────────────!!WARNING!!──────────────────────────────┐"
 			echo "│ If you disable freezing all frozen accounts will stay frozen forever!  │"
@@ -189,35 +189,35 @@ updaterMode()
 			echo "Do you want to countinue? (y/n):"
 			read countinue
 				if [[ $continue == "y" ]];then
-					spl-token authorize -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr freeze --disable
+					spl-token authorize --program-2022 $tokenMintAddr freeze --disable
 				fi
 			fi;;
 
 		
 		16)	echo "Enter the new transfer fee withraw authority address:"
 			read newAuthority
-			spl-token authorize -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr withheld-withdraw $newAuthority;;
+			spl-token authorize --program-2022 $tokenMintAddr withheld-withdraw $newAuthority;;
 
 		17)	echo "Enter the new mint close authority address or 'disable' to disable closeing the mint:"
 			read newAuthority
 			if [[ $newAuthority != "disable" ]]; then
-				spl-token authorize -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr close-mint $newAuthority
+				spl-token authorize --program-2022 $tokenMintAddr close-mint $newAuthority
 			else
 			echo "WARNIG! THIS OPERATION CANNOT BE UNDONE!!"
 			echo "Do you want to countinue? (y/n):"
 			read countinue
 				if [[ $continue == "y" ]];then
-					spl-token authorize -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr close-mint --disable
+					spl-token authorize --program-2022 $tokenMintAddr close-mint --disable
 				fi
 			fi;;
 
 		18)	echo "Enter the new permanent delegate authority address:"
 			read newAuthority
-			spl-token authorize -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr permanent-delegate $newAuthority;;
+			spl-token authorize --program-2022 $tokenMintAddr permanent-delegate $newAuthority;;
 
 		19)	echo "Enter the new intrest rate update authority address:"
 			read newAuthority
-			spl-token authorize -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $tokenMintAddr interest-rate $newAuthority;;
+			spl-token authorize --program-2022 $tokenMintAddr interest-rate $newAuthority;;
 		
 		*) echo "The selected option is invalid!"
 			exit;;
@@ -232,7 +232,7 @@ cheatSheat()
 	echo "Token transfer:"
 	echo "  spl-token transfer <token> <amount> <recipient>"
 	echo "Token creation all in one:"
-	echo "  spl-token create-token -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+	echo "  spl-token create-token --program-2022"
 	echo "  spl-token create-account <token>"
 	echo "  spl-token mint <token> <amount>"
 	echo "Max token that can hold on a single account or created in a single instruction ="
@@ -296,15 +296,15 @@ tools()
 			read reciver
 			echo "Enter the token account(s) to withraw from, separated by spaces:"
 			read fromAccounts
-			spl-token withdraw-withheld-tokens -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $reciver $fromAccounts;;
+			spl-token withdraw-withheld-tokens --program-2022 $reciver $fromAccounts;;
 		-)  echo "This feature is currently not supported by the cli."
 			echo "When it get supported i will add it here";;
 		4)	echo "Enter an account to freeze:"
 			echo freezeAccount
-			spl-token freeze -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $freezeAccount;;
+			spl-token freeze --program-2022 $freezeAccount;;
 		5)  echo "Enter an account to unfreeze:"
 			echo unfreezeAccount
-			spl-token thaw -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb  $unfreezeAccount;;
+			spl-token thaw --program-2022  $unfreezeAccount;;
 
 		6)	echo "Enter the token's mint address:"
 			read token
@@ -336,9 +336,9 @@ tools()
 			if [[ $destinationWallet == "" ]]; then
 				destinationWallet=$(solana address)
 			fi
-			accountRaw=$( spl-token create-account -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb --owner $destinationWallet --fee-payer $HOME/.config/solana/id.json $token )
+			accountRaw=$( spl-token create-account --program-2022 --owner $destinationWallet --fee-payer $HOME/.config/solana/id.json $token )
 			account=$( echo $accountRaw  | awk '{print $3}g' )
-			spl-token mint -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $token $tokenAmount $account;;
+			spl-token mint --program-2022 $token $tokenAmount $account;;
 
 
 		*) echo "[ERR] The selected option is invalid!";;
@@ -645,7 +645,7 @@ if [[ ! $? -eq 0 ]]; then
 
 else
 	solanaVersion=$( solana --version | awk '{print $2}g' )
-	if [[ "$(printf "%s\n" "1.18.4" "$solanaVersion" | sort -V | head -n 1)" != "1.18.4" ]]; then
+	if [[ "$(printf "%s\n" "2.3.8" "$solanaVersion" | sort -V | head -n 1)" != "2.3.8" ]]; then
     	echo "The installed version of Solana is outdated, update required"
 		isAllInstalled="n"
 		isSolanaInstalled="n"
@@ -839,24 +839,26 @@ fi
 if [[ $tokenExtensionId == "null" ]]; then
 echo ""
 if [[ isAdvanced == true ]]; then
-	echo "[?] Select a token extensions and other settings from the following list, separated by commas: (0-11)"
+	echo "[?] Select a token extensions and other settings from the following list, separated by commas: (0-13)"
 else
-	echo "[?] Select a token extensions and other settings from the following list, separated by commas: (0-9)"
+	echo "[?] Select a token extensions and other settings from the following list, separated by commas: (0-11)"
 fi
-echo "    Details in the solana docs: https://solana.com/developers/guides/token-extensions/getting-started"
+echo "    Details in the solana docs: https://www.solana-program.com/docs/token-2022/extensions"
 echo "  (0) No extensions, just a simple token"
 echo "  (1) Non transfarable"
 echo "  (2) Confidential transfer"
 echo "  (3) Transfer fees"
 echo "  (4) Transfer Hook"
-echo "  (5) Permanent Delegate"
-echo "  (6) Mint Close Authority"
-echo "  (7) Interest-Bearing"
-echo "  (8) Default Account State"
-echo "  (9) Enable freeze"
+echo "  (5) Pause"
+echo "  (6) Permanent Delegate"
+echo "  (7) Mint Close Authority"
+echo "  (8) Scaled UI Amount"
+echo "  (9) Interest-Bearing"
+echo "  (10) Default Account State"
+echo "  (11) Enable freeze"
 if [[ isAdvanced == true ]]; then
-echo "  (10) Group configuration"
-echo "  (11) Member configuration"
+echo "  (12) Group configuration"
+echo "  (13) Member configuration"
 fi
 read tokenExtensionId
 fi
@@ -876,6 +878,8 @@ isOption8Used=false
 isOption9Used=false
 isOption10Used=false
 isOption11Used=false
+isOption12Used=false
+isOption13Used=false
 
 isGroupNeedToBeInitialized=false
 
@@ -923,27 +927,39 @@ do
 
 		5)	if [[ $isOption5Used == false ]];then
 				isOption5Used=true
+				tokenExtensionsParsed="${tokenExtensionsParsed} --enable-pause"
+			fi;;
+
+		6)	if [[ $isOption6Used == false ]];then
+				isOption6Used=true
 				tokenExtensionsParsed="${tokenExtensionsParsed} --enable-permanent-delegate"
 			fi;;
 
-		6) 	if [[ $isOption6Used == false ]];then
-				isOption6Used=true
+		7) 	if [[ $isOption7Used == false ]];then
+				isOption7Used=true
 				tokenExtensionsParsed="${tokenExtensionsParsed} --enable-close"
 			fi;;
 
-		7)	if [[ $isOption7Used == false ]];then
-				isOption7Used=true
+		8)	if [[ $isOption8Used == false ]];then
+				isOption8Used=true
+					echo "[8] Enter the UI amount multiplier:"
+					read uiMultiplier
+				tokenExtensionsParsed="${tokenExtensionsParsed} --ui-amount-multiplier $uiMultiplier"
+			fi;;
+
+		9)	if [[ $isOption9Used == false ]];then
+				isOption9Used=true
 				if [[ $intrestRate == "null" ]]; then
-					echo "[7] Enter the intrest rate in percentage (without the % sign):"
+					echo "[9] Enter the intrest rate in percentage (without the % sign):"
 					read intrestRate
 				fi
 				tokenExtensionsParsed="${tokenExtensionsParsed} --interest-rate $($intrestRate * 100)"
 			fi;;
 	
-		8)	if [[ $isOption8Used == false ]];then
-				isOption8Used=true
+		10)	if [[ $isOption10Used == false ]];then
+				isOption10Used=true
 				if [[ $defaultAccountState == "null" ]]; then
-					echo "[8] Select the default account state: initialized(i) frozen(f):"
+					echo "[10] Select the default account state: initialized(i) frozen(f):"
 					read defaultAccountState
 					if [[ $defaultAccountState == "i" ]]; then defaultAccountState="initialized"
 					elif [[ $defaultAccountState == "f" ]]; then defaultAccountState="frozen"
@@ -952,17 +968,17 @@ do
 				tokenExtensionsParsed="${tokenExtensionsParsed} --default-account-state $defaultAccountState --enable-freeze"
 			fi;;
 
-		9) 	if [[ $isOption9Used == false ]]; then
-				isOption9Used=true
-				if [[ $(find_string "8" "$tokenExtensionId") == "1" ]]; then
+		11) 	if [[ $isOption11Used == false ]]; then
+				isOption11Used=true
+				if [[ $(find_string "11" "$tokenExtensionId") == "1" ]]; then
 					tokenExtensionsParsed="${tokenExtensionsParsed} --enable-freeze"
 				fi
 			fi;;
 
-		10) if [[ $isOption10Used == false ]]; then
-				isOption10Used=true
+		12) if [[ $isOption12Used == false ]]; then
+				isOption12Used=true
 				if [[ $groupConfigAddr == "null" ]]; then
-					echo "[10] Specify address that stores token group configurations or leave empty to initialize a new group on the mint:"
+					echo "[12] Specify address that stores token group configurations or leave empty to initialize a new group on the mint:"
 					read groupConfigAddr
 				fi
 				if [[ $groupConfigAddr != "" ]]; then
@@ -973,10 +989,10 @@ do
 				fi
 			fi;;
 
-		11) if [[ $isOption11Used == false ]]; then
-				isOption11Used=true
+		13) if [[ $isOption13Used == false ]]; then
+				isOption13Used=true
 				if [[ $memberConfigAddr == "null" ]]; then
-					echo "[11] Specify address that stores token member configurations or leave empty to initialize a new member on the mint:"
+					echo "[13] Specify address that stores token member configurations or leave empty to initialize a new member on the mint:"
 					read memberConfigAddr
 				fi
 				if [[ $memberConfigAddr != "" ]]; then
@@ -1007,7 +1023,7 @@ fi
 echo ""
 echo "Creating token..."
 
-tokenRaw=$( spl-token create-token -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb --enable-metadata --decimals $tokenDecimals $tokenExtensionsParsed $keypair)	#Create token
+tokenRaw=$( spl-token create-token --program-2022 --enable-metadata --decimals $tokenDecimals $tokenExtensionsParsed $keypair)	#Create token
 isSucesess
 
 token=$( echo $tokenRaw  | awk '{print $3}')
@@ -1028,7 +1044,7 @@ if [[ isMemberNeedToBeInitialized == true ]]; then
 fi
 
 #Create token account
-accountRaw=$( spl-token create-account -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb --owner $recipientWallet --fee-payer $HOME/.config/solana/id.json $token )
+accountRaw=$( spl-token create-account --program-2022 --owner $recipientWallet --fee-payer $HOME/.config/solana/id.json $token )
 isSucesess
 account=$( echo $accountRaw  | awk '{print $3}g' )
 
@@ -1116,15 +1132,11 @@ if [[ $metadataLink == "null" ]]; then
 	read metadataLink
 fi
 
-spl-token initialize-metadata $token "$tokenName" "$tokenSymbol" "$metadataLink" -v -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb > /dev/null
+spl-token initialize-metadata $token "$tokenName" "$tokenSymbol" "$metadataLink" -v --program-2022 > /dev/null
 isSucesess
 
 echo ""
 echo "────────────────────────────────────[Your token is done]────────────────────────────────────"
-
-if [[ $network == "d" ]]; then
-	solana transfer $destinationWallet 3 --allow-unfunded-recipient > /dev/null
-fi 
 
 if [[ $network == "m" ]]; then
 	echo ""
@@ -1139,7 +1151,6 @@ echo "    Don't worry if you see your token as "Unrecognised Token" just wait 2-
 
 echo ""
 echo "[?] Do you want to disable mint? (y/n):"
-echo "    It's required for every token to function correctly."
 read doDisableMint
 
 if [[ $doDisableMint == "y" ]]; then
@@ -1154,7 +1165,7 @@ if [[ $doDisableMint == "y" ]]; then
 	read doCountinue
 
 	if [[ $doCountinue == "y" ]]; then
-		spl-token authorize -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb $token mint --disable > /dev/null
+		spl-token authorize --program-2022 $token mint --disable > /dev/null
 		isSucesess
 	fi
 fi
